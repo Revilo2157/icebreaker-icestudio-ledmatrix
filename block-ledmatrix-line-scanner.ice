@@ -435,8 +435,39 @@
             "local": false
           },
           "position": {
-            "x": 768,
-            "y": 32
+            "x": 792,
+            "y": 40
+          }
+        },
+        {
+          "id": "75c4ad78-7001-414c-a9bd-9e4476bb3709",
+          "type": "basic.code",
+          "data": {
+            "code": "// Gating for shift register output\n// clock. rgb_en set to 1 at the same\n// cycle as new data latched at 'rgb',\n// and the rgb_en signal is latched\n// on the following negative edge.\n\n// Implememnted as a DDR output buffer\nSB_IO #(\n    // DDR output, regular input\n    .PIN_TYPE(6'b010001)\n) sclk_buf (\n    .PACKAGE_PIN(sclk),\n    .LATCH_INPUT_VALUE(1'b0),\n    .CLOCK_ENABLE(1'b1),\n    .INPUT_CLK(clk),\n    .OUTPUT_CLK(clk),\n    .OUTPUT_ENABLE(1'b1),\n    .D_OUT_0(1'b0),\n    .D_OUT_1(rgb_en)\n);",
+            "params": [],
+            "ports": {
+              "in": [
+                {
+                  "name": "clk"
+                },
+                {
+                  "name": "rgb_en"
+                }
+              ],
+              "out": [
+                {
+                  "name": "sclk"
+                }
+              ]
+            }
+          },
+          "position": {
+            "x": 1280,
+            "y": 136
+          },
+          "size": {
+            "width": 376,
+            "height": 368
           }
         },
         {
@@ -495,37 +526,6 @@
           "size": {
             "width": 504,
             "height": 424
-          }
-        },
-        {
-          "id": "75c4ad78-7001-414c-a9bd-9e4476bb3709",
-          "type": "basic.code",
-          "data": {
-            "code": "// Gating for shift register output\n// clock. rgb_en set to 1 at the same\n// cycle as new data latched at 'rgb',\n// and the rgb_en signal is latched\n// on the following negative edge.\n\n// Implememnted as a DDR output buffer\nSB_IO #(\n    // DDR output, regular input\n    .PIN_TYPE(6'b010001)\n) sclk_buf (\n    .PACKAGE_PIN(sclk),\n    .LATCH_INPUT_VALUE(1'b0),\n    .CLOCK_ENABLE(1'b1),\n    .INPUT_CLK(clk),\n    .OUTPUT_CLK(clk),\n    .OUTPUT_ENABLE(1'b1),\n    .D_OUT_0(1'b0),\n    .D_OUT_1(rgb_en)\n);",
-            "params": [],
-            "ports": {
-              "in": [
-                {
-                  "name": "clk"
-                },
-                {
-                  "name": "rgb_en"
-                }
-              ],
-              "out": [
-                {
-                  "name": "sclk"
-                }
-              ]
-            }
-          },
-          "position": {
-            "x": 1280,
-            "y": 136
-          },
-          "size": {
-            "width": 376,
-            "height": 368
           }
         }
       ],
