@@ -2,7 +2,7 @@
   "version": "1.2",
   "package": {
     "name": "led-64x64",
-    "version": "0.1",
+    "version": "0.2",
     "description": "Addressing for a single 64x64 panel, 1:32 scan",
     "author": "Micah Scott",
     "image": ""
@@ -15,7 +15,7 @@
           "id": "91f69a68-d983-46e0-bdaa-312cd47b8a3d",
           "type": "basic.input",
           "data": {
-            "name": "scan_row",
+            "name": "render_row",
             "range": "[7:0]",
             "pins": [
               {
@@ -373,12 +373,12 @@
           "id": "edf99c3f-09a8-48bd-937d-087878c9fda4",
           "type": "basic.code",
           "data": {
-            "code": "// Addressing for a single 64x64 panel with 1:32 scan\n//   - Two halves (lanes 0 and 1)\n//   - 64 LEDs per scan row == 64 per physical row\n\n// The row we're rendering is the one after the current scan\nwire [4:0] render_row = scan_row[4:0] + 1;\n\nassign x = { 10'b0, pixel_counter[5:0] };\nassign y = { 10'b0, lane_counter[0], render_row };",
+            "code": "// Addressing for a single 64x64 panel with 1:32 scan\n//   - Two halves (lanes 0 and 1)\n//   - 64 LEDs per scan row == 64 per physical row\n\nassign x = { 10'b0, pixel_counter[5:0] };\nassign y = { 10'b0, lane_counter[0], render_row[4:0] };",
             "params": [],
             "ports": {
               "in": [
                 {
-                  "name": "scan_row",
+                  "name": "render_row",
                   "range": "[7:0]",
                   "size": 8
                 },
@@ -418,17 +418,6 @@
         }
       ],
       "wires": [
-        {
-          "source": {
-            "block": "91f69a68-d983-46e0-bdaa-312cd47b8a3d",
-            "port": "out"
-          },
-          "target": {
-            "block": "edf99c3f-09a8-48bd-937d-087878c9fda4",
-            "port": "scan_row"
-          },
-          "size": 8
-        },
         {
           "source": {
             "block": "a2cdc675-8ff8-4563-a738-09074f58c624",
@@ -472,6 +461,17 @@
             "port": "pixel_counter"
           },
           "size": 13
+        },
+        {
+          "source": {
+            "block": "91f69a68-d983-46e0-bdaa-312cd47b8a3d",
+            "port": "out"
+          },
+          "target": {
+            "block": "edf99c3f-09a8-48bd-937d-087878c9fda4",
+            "port": "render_row"
+          },
+          "size": 8
         }
       ]
     }

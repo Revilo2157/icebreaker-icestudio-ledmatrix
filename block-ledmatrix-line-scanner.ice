@@ -2,7 +2,7 @@
   "version": "1.2",
   "package": {
     "name": "led-line-scan",
-    "version": "0.2",
+    "version": "0.3",
     "description": "Scan out data bits into LED shift register from the line buffer",
     "author": "",
     "image": ""
@@ -47,7 +47,7 @@
           },
           "position": {
             "x": 1104,
-            "y": 184
+            "y": 208
           }
         },
         {
@@ -171,7 +171,7 @@
           },
           "position": {
             "x": 1112,
-            "y": 304
+            "y": 376
           }
         },
         {
@@ -190,8 +190,8 @@
             "clock": false
           },
           "position": {
-            "x": 304,
-            "y": 360
+            "x": 280,
+            "y": 400
           }
         },
         {
@@ -296,8 +296,8 @@
             "clock": false
           },
           "position": {
-            "x": 272,
-            "y": 520
+            "x": 248,
+            "y": 616
           }
         },
         {
@@ -376,8 +376,8 @@
             "virtual": true
           },
           "position": {
-            "x": 1168,
-            "y": 544
+            "x": 1192,
+            "y": 712
           }
         },
         {
@@ -389,8 +389,8 @@
             "local": false
           },
           "position": {
-            "x": 800,
-            "y": 16
+            "x": 792,
+            "y": 24
           }
         },
         {
@@ -428,7 +428,7 @@
           "id": "8d247e8d-eae8-46e3-8105-f5c6f589acff",
           "type": "basic.code",
           "data": {
-            "code": "// Render one line of pixels from RAM\n\n// Scan-out state machine, reads individual\n// bit planes from the line buffer and outputs both\n// the bits and clock-enable signal for the bits.\n\nreg[12:0] pixel_counter = 0;\nreg[17:0] rgb = 0;\nreg busy = 0;\nreg rgb_en = 0;\n\nalways @(posedge clk) begin\n    if (begin_s) begin\n        pixel_counter <= 0;\n        rgb_en <= 0;\n        busy <= 1;\n    end\n    else if (busy) begin\n        rgb_en <= 1;\n        rgb <= scan_data;\n\n        if (pixel_counter == (pixels_per_scan_row - 1))\n            busy <= 0;\n        else\n            pixel_counter <= pixel_counter + 1;\n    end\n    else\n        rgb_en <= 0;\nend\n",
+            "code": "// Count one clock per pixel\n\nreg[12:0] pixel_counter = 0;\nreg counter_running = 0;\n\nalways @(posedge clk) begin\n    if (begin_s) begin\n        pixel_counter <= 0;\n        counter_running <= 1;\n    end\n    else if (counter_running) begin\n        if (pixel_counter == (pixels_per_scan_row - 1))\n            counter_running <= 0;\n        else\n            pixel_counter <= pixel_counter + 1;\n    end\nend\n\n// Allow one cycle for the RAM to fetch scan_data.\n\nreg delayed_running = 0;\nalways @(posedge clk) delayed_running <= counter_running;\n\n// Transfer data and data-enable to output registers\n// on the same clock cycle\n\nreg[17:0] rgb = 0;\nreg rgb_en = 0;\n\nalways @(posedge clk) begin\n    rgb <= scan_data;\n    rgb_en <= delayed_running;\nend\n\n// Busy as long as the counter is running or we're waiting to\n// finish clocking out the last bit\n\nassign busy = counter_running || delayed_running || rgb_en;\n",
             "params": [
               {
                 "name": "pixels_per_scan_row"
@@ -473,8 +473,8 @@
             "y": 152
           },
           "size": {
-            "width": 504,
-            "height": 480
+            "width": 512,
+            "height": 680
           }
         }
       ],

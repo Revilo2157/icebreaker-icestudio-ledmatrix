@@ -154,25 +154,6 @@
           }
         },
         {
-          "id": "ff5605b2-44f7-4d68-9ea6-f506fe82eafe",
-          "type": "basic.output",
-          "data": {
-            "name": "debug_7",
-            "pins": [
-              {
-                "index": "0",
-                "name": "P1_A10",
-                "value": "44"
-              }
-            ],
-            "virtual": false
-          },
-          "position": {
-            "x": -1368,
-            "y": 1432
-          }
-        },
-        {
           "id": "5b8bea69-f3f1-4505-91e4-287ac3385583",
           "type": "basic.output",
           "data": {
@@ -187,8 +168,27 @@
             "virtual": false
           },
           "position": {
-            "x": -1256,
-            "y": 1528
+            "x": -1312,
+            "y": 1800
+          }
+        },
+        {
+          "id": "ff5605b2-44f7-4d68-9ea6-f506fe82eafe",
+          "type": "basic.output",
+          "data": {
+            "name": "debug_7",
+            "pins": [
+              {
+                "index": "0",
+                "name": "P1_A10",
+                "value": "44"
+              }
+            ],
+            "virtual": false
+          },
+          "position": {
+            "x": -400,
+            "y": 1896
           }
         },
         {
@@ -393,34 +393,10 @@
           }
         },
         {
-          "id": "b6f656bc-568c-42f3-a8e8-eec608d193c4",
-          "type": "16521812c15247e1714a9e8573bb7ac88a60b6cf",
-          "position": {
-            "x": -1568,
-            "y": 2088
-          },
-          "size": {
-            "width": 96,
-            "height": 96
-          }
-        },
-        {
-          "id": "5ea58361-8360-4ef6-b826-837752201daa",
-          "type": "5021aaa004041b66d3950d330a77496c31b30736",
-          "position": {
-            "x": -1912,
-            "y": 1992
-          },
-          "size": {
-            "width": 96,
-            "height": 192
-          }
-        },
-        {
           "id": "c6208f82-c2ae-415e-b836-8e4ff2448327",
           "type": "basic.code",
           "data": {
-            "code": "reg[23:0] rgb;\nreg pixel_done;\n\nwire[7:0] x8 = { x[5:0], x[5:4] };\nwire[7:0] y8 = { y[5:0], y[5:4] };\n\nwire[1:0] sel2 = counter[9:8];\n\nwire[7:0] bright8 = counter[7:0];\n\nalways @(posedge clk) begin\n    if (begin_pixel) begin\n        pixel_done <= 1;\n        rgb <= {\n            (sel2 == 0 || sel2 == 3) ? bright8 : 8'h00,\n            (sel2 == 1 || sel2 == 3) ? bright8 : 8'h00,\n            (sel2 == 2 || sel2 == 3) ? bright8 : 8'h00\n        };\n    end\n    else\n        pixel_done <= 0;\nend\n",
+            "code": "reg[23:0] rgb;\nreg pixel_done;\n\n\nalways @(posedge clk) begin\n    if (begin_pixel) begin\n        pixel_done <= 1;\n        rgb <= (x == counter || y == counter) ?\n            24'hFFFFFF : { x[7:0], y[7:0], x[7:0] };\n    end\n    else\n        pixel_done <= 0;\nend\n",
             "params": [],
             "ports": {
               "in": [
@@ -480,18 +456,6 @@
           }
         },
         {
-          "id": "899d2d09-9fa0-45d1-a9a1-42aeaf4c9ff8",
-          "type": "884a0528f2b4a909d139c7b1447fa2af563f1508",
-          "position": {
-            "x": -664,
-            "y": 880
-          },
-          "size": {
-            "width": 96,
-            "height": 128
-          }
-        },
-        {
           "id": "4d059982-f0f9-47ab-b3e1-f44c861815f3",
           "type": "d870df8ec002d5b5d99867102503e59297f5e1c5",
           "position": {
@@ -538,6 +502,42 @@
             "width": 96,
             "height": 256
           }
+        },
+        {
+          "id": "5cd8690b-8292-4d8d-8f2b-7518c70057e2",
+          "type": "0d7d6e4ae366205a71b7c4f626eca818204dfcad",
+          "position": {
+            "x": -1528,
+            "y": 2088
+          },
+          "size": {
+            "width": 96,
+            "height": 96
+          }
+        },
+        {
+          "id": "cebc53fd-4225-4dfb-8518-17fc8df65d67",
+          "type": "24d55aafa08d451ef3801fdd497a8e04161e61f8",
+          "position": {
+            "x": -664,
+            "y": 880
+          },
+          "size": {
+            "width": 96,
+            "height": 128
+          }
+        },
+        {
+          "id": "951751af-d6eb-46f5-a971-2c0917ee8703",
+          "type": "ff2ae49d8e863cee1f38d638e3182106e0b23f0d",
+          "position": {
+            "x": -1912,
+            "y": 1992
+          },
+          "size": {
+            "width": 96,
+            "height": 192
+          }
         }
       ],
       "wires": [
@@ -569,19 +569,7 @@
         },
         {
           "source": {
-            "block": "4d059982-f0f9-47ab-b3e1-f44c861815f3",
-            "port": "1c0b61b6-7346-4506-aef5-ecbd4de855bb"
-          },
-          "target": {
-            "block": "899d2d09-9fa0-45d1-a9a1-42aeaf4c9ff8",
-            "port": "04444fe3-0797-4c6b-843f-581f379b2b57"
-          },
-          "vertices": [],
-          "size": 18
-        },
-        {
-          "source": {
-            "block": "899d2d09-9fa0-45d1-a9a1-42aeaf4c9ff8",
+            "block": "cebc53fd-4225-4dfb-8518-17fc8df65d67",
             "port": "0b2ff775-3174-4dcd-9930-c04180760d37"
           },
           "target": {
@@ -591,7 +579,7 @@
         },
         {
           "source": {
-            "block": "899d2d09-9fa0-45d1-a9a1-42aeaf4c9ff8",
+            "block": "cebc53fd-4225-4dfb-8518-17fc8df65d67",
             "port": "31d36c6e-86f7-4f52-a762-358b30f25b25"
           },
           "target": {
@@ -617,7 +605,7 @@
             "port": "ad79c0aa-6f96-4010-bc1d-21ba2e83b606"
           },
           "target": {
-            "block": "899d2d09-9fa0-45d1-a9a1-42aeaf4c9ff8",
+            "block": "cebc53fd-4225-4dfb-8518-17fc8df65d67",
             "port": "d759dc48-6f59-4ae7-a02e-bc876aa70ba7"
           },
           "vertices": [
@@ -633,7 +621,7 @@
             "port": "constant-out"
           },
           "target": {
-            "block": "899d2d09-9fa0-45d1-a9a1-42aeaf4c9ff8",
+            "block": "cebc53fd-4225-4dfb-8518-17fc8df65d67",
             "port": "04ff3835-cbdc-41a5-bd45-00751845c2fe"
           },
           "vertices": []
@@ -703,7 +691,7 @@
         },
         {
           "source": {
-            "block": "b6f656bc-568c-42f3-a8e8-eec608d193c4",
+            "block": "5cd8690b-8292-4d8d-8f2b-7518c70057e2",
             "port": "54d3596d-20c5-4cdd-be07-5bad145da773"
           },
           "target": {
@@ -714,7 +702,7 @@
         },
         {
           "source": {
-            "block": "b6f656bc-568c-42f3-a8e8-eec608d193c4",
+            "block": "5cd8690b-8292-4d8d-8f2b-7518c70057e2",
             "port": "23f1e6ff-549c-43a8-860e-1c3d121101cb"
           },
           "target": {
@@ -739,14 +727,14 @@
             "port": "ad79c0aa-6f96-4010-bc1d-21ba2e83b606"
           },
           "target": {
-            "block": "5ea58361-8360-4ef6-b826-837752201daa",
+            "block": "951751af-d6eb-46f5-a971-2c0917ee8703",
             "port": "83318c2e-37d7-4f21-b4ff-459da9e473b9"
           },
           "vertices": []
         },
         {
           "source": {
-            "block": "5ea58361-8360-4ef6-b826-837752201daa",
+            "block": "951751af-d6eb-46f5-a971-2c0917ee8703",
             "port": "b3de63d6-fe18-433b-a491-9c9c5121f52e"
           },
           "target": {
@@ -767,7 +755,7 @@
         },
         {
           "source": {
-            "block": "5ea58361-8360-4ef6-b826-837752201daa",
+            "block": "951751af-d6eb-46f5-a971-2c0917ee8703",
             "port": "c821bfa9-1453-4ccd-9d11-7c395546ddee"
           },
           "target": {
@@ -784,7 +772,7 @@
         },
         {
           "source": {
-            "block": "5ea58361-8360-4ef6-b826-837752201daa",
+            "block": "951751af-d6eb-46f5-a971-2c0917ee8703",
             "port": "1c90bdaf-5adb-4f69-b918-4631f7c3011d"
           },
           "target": {
@@ -800,7 +788,7 @@
         },
         {
           "source": {
-            "block": "5ea58361-8360-4ef6-b826-837752201daa",
+            "block": "951751af-d6eb-46f5-a971-2c0917ee8703",
             "port": "01f9c0f4-98e2-42f9-83bc-d3aadda560b4"
           },
           "target": {
@@ -810,11 +798,11 @@
         },
         {
           "source": {
-            "block": "5ea58361-8360-4ef6-b826-837752201daa",
+            "block": "951751af-d6eb-46f5-a971-2c0917ee8703",
             "port": "ce14c7e6-c1db-4adf-aa9e-46ce0f286a90"
           },
           "target": {
-            "block": "b6f656bc-568c-42f3-a8e8-eec608d193c4",
+            "block": "5cd8690b-8292-4d8d-8f2b-7518c70057e2",
             "port": "fc462251-5459-420f-8a2e-b14effa683da"
           },
           "vertices": [],
@@ -822,11 +810,11 @@
         },
         {
           "source": {
-            "block": "5ea58361-8360-4ef6-b826-837752201daa",
+            "block": "951751af-d6eb-46f5-a971-2c0917ee8703",
             "port": "56dd7ced-6202-4ea1-a3b5-d650718f9459"
           },
           "target": {
-            "block": "b6f656bc-568c-42f3-a8e8-eec608d193c4",
+            "block": "5cd8690b-8292-4d8d-8f2b-7518c70057e2",
             "port": "a2cdc675-8ff8-4563-a738-09074f58c624"
           },
           "vertices": [],
@@ -838,7 +826,7 @@
             "port": "02d55548-6566-47d4-89e1-aaa8d5880430"
           },
           "target": {
-            "block": "5ea58361-8360-4ef6-b826-837752201daa",
+            "block": "951751af-d6eb-46f5-a971-2c0917ee8703",
             "port": "600e9a43-7987-4e13-b124-08f782dcd3f9"
           }
         },
@@ -848,7 +836,7 @@
             "port": "pixel_done"
           },
           "target": {
-            "block": "5ea58361-8360-4ef6-b826-837752201daa",
+            "block": "951751af-d6eb-46f5-a971-2c0917ee8703",
             "port": "5fc1a499-6b3c-4deb-a74f-a2f970c375c4"
           },
           "vertices": [
@@ -864,7 +852,7 @@
             "port": "rgb"
           },
           "target": {
-            "block": "5ea58361-8360-4ef6-b826-837752201daa",
+            "block": "951751af-d6eb-46f5-a971-2c0917ee8703",
             "port": "865e17c2-911e-48c7-bd0b-a0513e28668e"
           },
           "vertices": [
@@ -885,7 +873,7 @@
             "port": "constant-out"
           },
           "target": {
-            "block": "5ea58361-8360-4ef6-b826-837752201daa",
+            "block": "951751af-d6eb-46f5-a971-2c0917ee8703",
             "port": "773a1323-054a-4a44-9fd0-1f3257717eaa"
           },
           "vertices": [
@@ -901,7 +889,7 @@
             "port": "constant-out"
           },
           "target": {
-            "block": "5ea58361-8360-4ef6-b826-837752201daa",
+            "block": "951751af-d6eb-46f5-a971-2c0917ee8703",
             "port": "8b58d2cd-7d70-4165-b0c5-96e2e113a64c"
           },
           "vertices": [
@@ -1022,7 +1010,7 @@
         },
         {
           "source": {
-            "block": "899d2d09-9fa0-45d1-a9a1-42aeaf4c9ff8",
+            "block": "cebc53fd-4225-4dfb-8518-17fc8df65d67",
             "port": "b4d555ed-8951-43df-a9eb-1824d805cc4b"
           },
           "target": {
@@ -1031,8 +1019,8 @@
           },
           "vertices": [
             {
-              "x": -1064,
-              "y": 1360
+              "x": -1056,
+              "y": 1256
             }
           ],
           "size": 13
@@ -1072,23 +1060,6 @@
         },
         {
           "source": {
-            "block": "cfc3c1f4-1673-469e-ae8a-3123c419d0cc",
-            "port": "b84358d9-b840-4cd0-9112-b0a96ea9c245"
-          },
-          "target": {
-            "block": "b6f656bc-568c-42f3-a8e8-eec608d193c4",
-            "port": "91f69a68-d983-46e0-bdaa-312cd47b8a3d"
-          },
-          "vertices": [
-            {
-              "x": -1688,
-              "y": 1784
-            }
-          ],
-          "size": 8
-        },
-        {
-          "source": {
             "block": "9ae8aca7-c3e3-41cf-a7b7-8220af8a31b4",
             "port": "9cf49c52-c26f-4c09-b010-d5772f7dffa8"
           },
@@ -1109,7 +1080,7 @@
         },
         {
           "source": {
-            "block": "899d2d09-9fa0-45d1-a9a1-42aeaf4c9ff8",
+            "block": "cebc53fd-4225-4dfb-8518-17fc8df65d67",
             "port": "ce7c7097-d3b6-40cd-abf1-f604737f31e9"
           },
           "target": {
@@ -1189,7 +1160,7 @@
             "port": "32c8288c-a1b0-4ea1-a9d9-0b07ea63943b"
           },
           "target": {
-            "block": "899d2d09-9fa0-45d1-a9a1-42aeaf4c9ff8",
+            "block": "cebc53fd-4225-4dfb-8518-17fc8df65d67",
             "port": "3b23e508-9bb9-4b5a-8785-1ea74070bc5b"
           },
           "vertices": [
@@ -1198,6 +1169,48 @@
               "y": 1568
             }
           ]
+        },
+        {
+          "source": {
+            "block": "cfc3c1f4-1673-469e-ae8a-3123c419d0cc",
+            "port": "b84358d9-b840-4cd0-9112-b0a96ea9c245"
+          },
+          "target": {
+            "block": "5cd8690b-8292-4d8d-8f2b-7518c70057e2",
+            "port": "91f69a68-d983-46e0-bdaa-312cd47b8a3d"
+          },
+          "size": 8
+        },
+        {
+          "source": {
+            "block": "4d059982-f0f9-47ab-b3e1-f44c861815f3",
+            "port": "1c0b61b6-7346-4506-aef5-ecbd4de855bb"
+          },
+          "target": {
+            "block": "cebc53fd-4225-4dfb-8518-17fc8df65d67",
+            "port": "04444fe3-0797-4c6b-843f-581f379b2b57"
+          },
+          "size": 18
+        },
+        {
+          "source": {
+            "block": "951751af-d6eb-46f5-a971-2c0917ee8703",
+            "port": "01f9c0f4-98e2-42f9-83bc-d3aadda560b4"
+          },
+          "target": {
+            "block": "5b8bea69-f3f1-4505-91e4-287ac3385583",
+            "port": "in"
+          }
+        },
+        {
+          "source": {
+            "block": "c6208f82-c2ae-415e-b836-8e4ff2448327",
+            "port": "pixel_done"
+          },
+          "target": {
+            "block": "ff5605b2-44f7-4d68-9ea6-f506fe82eafe",
+            "port": "in"
+          }
         }
       ]
     }
@@ -1288,624 +1301,6 @@
               "target": {
                 "block": "ad79c0aa-6f96-4010-bc1d-21ba2e83b606",
                 "port": "in"
-              }
-            }
-          ]
-        }
-      }
-    },
-    "16521812c15247e1714a9e8573bb7ac88a60b6cf": {
-      "package": {
-        "name": "led-64x64",
-        "version": "0.1",
-        "description": "Addressing for a single 64x64 panel, 1:32 scan",
-        "author": "Micah Scott",
-        "image": ""
-      },
-      "design": {
-        "graph": {
-          "blocks": [
-            {
-              "id": "91f69a68-d983-46e0-bdaa-312cd47b8a3d",
-              "type": "basic.input",
-              "data": {
-                "name": "scan_row",
-                "range": "[7:0]",
-                "clock": false,
-                "size": 8
-              },
-              "position": {
-                "x": 88,
-                "y": 176
-              }
-            },
-            {
-              "id": "54d3596d-20c5-4cdd-be07-5bad145da773",
-              "type": "basic.output",
-              "data": {
-                "name": "x",
-                "range": "[15:0]",
-                "size": 16
-              },
-              "position": {
-                "x": 944,
-                "y": 192
-              }
-            },
-            {
-              "id": "fc462251-5459-420f-8a2e-b14effa683da",
-              "type": "basic.input",
-              "data": {
-                "name": "pixel_counter",
-                "range": "[12:0]",
-                "clock": false,
-                "size": 13
-              },
-              "position": {
-                "x": 88,
-                "y": 248
-              }
-            },
-            {
-              "id": "23f1e6ff-549c-43a8-860e-1c3d121101cb",
-              "type": "basic.output",
-              "data": {
-                "name": "y",
-                "range": "[15:0]",
-                "size": 16
-              },
-              "position": {
-                "x": 944,
-                "y": 296
-              }
-            },
-            {
-              "id": "a2cdc675-8ff8-4563-a738-09074f58c624",
-              "type": "basic.input",
-              "data": {
-                "name": "lane_counter",
-                "range": "[2:0]",
-                "clock": false,
-                "size": 3
-              },
-              "position": {
-                "x": 88,
-                "y": 312
-              }
-            },
-            {
-              "id": "edf99c3f-09a8-48bd-937d-087878c9fda4",
-              "type": "basic.code",
-              "data": {
-                "code": "// Addressing for a single 64x64 panel with 1:32 scan\n//   - Two halves (lanes 0 and 1)\n//   - 64 LEDs per scan row == 64 per physical row\n\n// The row we're rendering is the one after the current scan\nwire [4:0] render_row = scan_row[4:0] + 1;\n\nassign x = { 10'b0, pixel_counter[5:0] };\nassign y = { 10'b0, lane_counter[0], render_row };",
-                "params": [],
-                "ports": {
-                  "in": [
-                    {
-                      "name": "scan_row",
-                      "range": "[7:0]",
-                      "size": 8
-                    },
-                    {
-                      "name": "pixel_counter",
-                      "range": "[12:0]",
-                      "size": 13
-                    },
-                    {
-                      "name": "lane_counter",
-                      "range": "[2:0]",
-                      "size": 3
-                    }
-                  ],
-                  "out": [
-                    {
-                      "name": "x",
-                      "range": "[15:0]",
-                      "size": 16
-                    },
-                    {
-                      "name": "y",
-                      "range": "[15:0]",
-                      "size": 16
-                    }
-                  ]
-                }
-              },
-              "position": {
-                "x": 320,
-                "y": 176
-              },
-              "size": {
-                "width": 536,
-                "height": 200
-              }
-            }
-          ],
-          "wires": [
-            {
-              "source": {
-                "block": "91f69a68-d983-46e0-bdaa-312cd47b8a3d",
-                "port": "out"
-              },
-              "target": {
-                "block": "edf99c3f-09a8-48bd-937d-087878c9fda4",
-                "port": "scan_row"
-              },
-              "size": 8
-            },
-            {
-              "source": {
-                "block": "a2cdc675-8ff8-4563-a738-09074f58c624",
-                "port": "out"
-              },
-              "target": {
-                "block": "edf99c3f-09a8-48bd-937d-087878c9fda4",
-                "port": "lane_counter"
-              },
-              "size": 3
-            },
-            {
-              "source": {
-                "block": "edf99c3f-09a8-48bd-937d-087878c9fda4",
-                "port": "x"
-              },
-              "target": {
-                "block": "54d3596d-20c5-4cdd-be07-5bad145da773",
-                "port": "in"
-              },
-              "size": 16
-            },
-            {
-              "source": {
-                "block": "edf99c3f-09a8-48bd-937d-087878c9fda4",
-                "port": "y"
-              },
-              "target": {
-                "block": "23f1e6ff-549c-43a8-860e-1c3d121101cb",
-                "port": "in"
-              },
-              "size": 16
-            },
-            {
-              "source": {
-                "block": "fc462251-5459-420f-8a2e-b14effa683da",
-                "port": "out"
-              },
-              "target": {
-                "block": "edf99c3f-09a8-48bd-937d-087878c9fda4",
-                "port": "pixel_counter"
-              },
-              "size": 13
-            }
-          ]
-        }
-      }
-    },
-    "5021aaa004041b66d3950d330a77496c31b30736": {
-      "package": {
-        "name": "led-line-render",
-        "version": "0.1",
-        "description": "Fill an LED line buffer, using data from an external pixel shader",
-        "author": "Micah Scott",
-        "image": ""
-      },
-      "design": {
-        "graph": {
-          "blocks": [
-            {
-              "id": "b3de63d6-fe18-433b-a491-9c9c5121f52e",
-              "type": "basic.output",
-              "data": {
-                "name": "render_addr",
-                "range": "[15:0]",
-                "size": 16
-              },
-              "position": {
-                "x": 1104,
-                "y": 184
-              }
-            },
-            {
-              "id": "83318c2e-37d7-4f21-b4ff-459da9e473b9",
-              "type": "basic.input",
-              "data": {
-                "name": "clk",
-                "clock": true
-              },
-              "position": {
-                "x": -672,
-                "y": 224
-              }
-            },
-            {
-              "id": "c821bfa9-1453-4ccd-9d11-7c395546ddee",
-              "type": "basic.output",
-              "data": {
-                "name": "render_data",
-                "range": "[17:0]",
-                "size": 18
-              },
-              "position": {
-                "x": 1096,
-                "y": 336
-              }
-            },
-            {
-              "id": "600e9a43-7987-4e13-b124-08f782dcd3f9",
-              "type": "basic.input",
-              "data": {
-                "name": "begin_line",
-                "clock": false
-              },
-              "position": {
-                "x": 24,
-                "y": 448
-              }
-            },
-            {
-              "id": "1c90bdaf-5adb-4f69-b918-4631f7c3011d",
-              "type": "basic.output",
-              "data": {
-                "name": "render_we"
-              },
-              "position": {
-                "x": 1088,
-                "y": 488
-              }
-            },
-            {
-              "id": "01f9c0f4-98e2-42f9-83bc-d3aadda560b4",
-              "type": "basic.output",
-              "data": {
-                "name": "begin_pixel"
-              },
-              "position": {
-                "x": 1088,
-                "y": 632
-              }
-            },
-            {
-              "id": "865e17c2-911e-48c7-bd0b-a0513e28668e",
-              "type": "basic.input",
-              "data": {
-                "name": "rgb",
-                "range": "[23:0]",
-                "clock": false,
-                "size": 24
-              },
-              "position": {
-                "x": 24,
-                "y": 672
-              }
-            },
-            {
-              "id": "ce14c7e6-c1db-4adf-aa9e-46ce0f286a90",
-              "type": "basic.output",
-              "data": {
-                "name": "pixel_counter",
-                "range": "[12:0]",
-                "size": 13
-              },
-              "position": {
-                "x": 1088,
-                "y": 784
-              }
-            },
-            {
-              "id": "5fc1a499-6b3c-4deb-a74f-a2f970c375c4",
-              "type": "basic.input",
-              "data": {
-                "name": "pixel_done",
-                "clock": false
-              },
-              "position": {
-                "x": -704,
-                "y": 896
-              }
-            },
-            {
-              "id": "56dd7ced-6202-4ea1-a3b5-d650718f9459",
-              "type": "basic.output",
-              "data": {
-                "name": "lane_counter",
-                "range": "[2:0]",
-                "size": 3
-              },
-              "position": {
-                "x": 1088,
-                "y": 936
-              }
-            },
-            {
-              "id": "773a1323-054a-4a44-9fd0-1f3257717eaa",
-              "type": "basic.constant",
-              "data": {
-                "name": "pixels_per_scan_row",
-                "value": "64",
-                "local": false
-              },
-              "position": {
-                "x": 432,
-                "y": 32
-              }
-            },
-            {
-              "id": "8b58d2cd-7d70-4165-b0c5-96e2e113a64c",
-              "type": "basic.constant",
-              "data": {
-                "name": "num_lanes",
-                "value": "2",
-                "local": false
-              },
-              "position": {
-                "x": 776,
-                "y": 32
-              }
-            },
-            {
-              "id": "d12554bf-049d-4b22-9c3e-0917cf6ced03",
-              "type": "basic.code",
-              "data": {
-                "code": "// Double-buffer for one pixel from each lane.\nreg [23:0] pixel_buffer [0:2*num_lanes-1];\n\n// Outgoing: when triggered, send current pixel from all lanes\n// via render_* signals to the line buffer. Iterates over bitplanes.\n\nreg [15:0] render_addr = 0;\nreg [17:0] render_data = 0;\nreg render_we = 0;\nreg [2:0] bitplane_counter = 0;\nreg outgoing_active = 0;\nparameter num_bitplanes = 8;\n\nwire [23:0] lane0_rgb = pixel_buffer[{ 3'h0, !pixel_counter[0] }];\nwire [23:0] lane1_rgb = pixel_buffer[{ 3'h1, !pixel_counter[0] }];\nwire [23:0] lane2_rgb = pixel_buffer[{ 3'h2, !pixel_counter[0] }];\nwire [23:0] lane3_rgb = pixel_buffer[{ 3'h3, !pixel_counter[0] }];\nwire [23:0] lane4_rgb = pixel_buffer[{ 3'h4, !pixel_counter[0] }];\nwire [23:0] lane5_rgb = pixel_buffer[{ 3'h5, !pixel_counter[0] }];\n\nalways @(posedge clk) begin\n    if (outgoing_trigger) begin\n        outgoing_active <= 1;\n        bitplane_counter <= 0;\n        render_we <= 0;\n    end\n    else if (outgoing_active) begin\n        // Address in line buffer: current pixel (pixel_counter was\n        // already incremented to work on the next one), plane index\n        render_addr <= { pixel_counter_previous, bitplane_counter };\n\n        // Data for line buffer: one bit from every lane, RGBRGBRGB...\n        render_data <= {\n            lane5_rgb[{2'h2, bitplane_counter}],\n            lane5_rgb[{2'h1, bitplane_counter}],\n            lane5_rgb[{2'h0, bitplane_counter}],\n            lane4_rgb[{2'h2, bitplane_counter}],\n            lane4_rgb[{2'h1, bitplane_counter}],\n            lane4_rgb[{2'h0, bitplane_counter}],\n            lane3_rgb[{2'h2, bitplane_counter}],\n            lane3_rgb[{2'h1, bitplane_counter}],\n            lane3_rgb[{2'h0, bitplane_counter}],\n            lane2_rgb[{2'h2, bitplane_counter}],\n            lane2_rgb[{2'h1, bitplane_counter}],\n            lane2_rgb[{2'h0, bitplane_counter}],\n            lane1_rgb[{2'h2, bitplane_counter}],\n            lane1_rgb[{2'h1, bitplane_counter}],\n            lane1_rgb[{2'h0, bitplane_counter}],\n            lane0_rgb[{2'h2, bitplane_counter}],\n            lane0_rgb[{2'h1, bitplane_counter}],\n            lane0_rgb[{2'h0, bitplane_counter}]\n        };\n        \n        render_we <= 1;\n        if (bitplane_counter == (num_bitplanes - 1)) begin\n            outgoing_active <= 0;\n        end\n        else begin\n            bitplane_counter <= bitplane_counter + 1;\n        end\n    end\n    else begin\n        // Output is idle\n        render_we <= 0;\n    end\nend\n\n// Pixel iteration: When triggered by the refresh module,\n// start outputting each pixel in a line, coordinating with the\n// outgoing state machine above.\n\nreg outgoing_trigger = 0;\nreg begin_pixel = 0;\nreg line_active = 0;\nreg [12:0] pixel_counter = 0;\nwire [12:0] pixel_counter_previous = pixel_counter - 13'h1;\nreg [2:0] lane_counter = 0;\n\nalways @(posedge clk) begin\n    if (begin_line) begin\n        begin_pixel <= 1;\n        line_active <= 1;\n        outgoing_trigger <= 0;\n        pixel_counter <= 0;\n        lane_counter <= 0;\n    end\n    else if (line_active && pixel_done) begin\n        // Still looping, and we have a rendered pixel to store\n        pixel_buffer[{ lane_counter, pixel_counter[0] }] <= rgb;\n        \n        if (lane_counter != (num_lanes - 1)) begin\n            // Render pixel for next lane next\n            lane_counter <= lane_counter + 1;\n            begin_pixel <= 1;\n        end\n        else begin\n            // Just finished all lanes for one pixel; output that\n            // pixel while we work on the next one (or while inactive,\n            // for the last pixel). Here we may need to wait for the\n            // outgoing state machine if it's still busy\n            \n            if (outgoing_active) begin\n                // Still waiting on outgoing state machine\n                begin_pixel <= 0;\n            end \n            else begin\n                outgoing_trigger <= 1;\n                lane_counter <= 0;\n                pixel_counter <= pixel_counter + 1;\n                if (pixel_counter == (pixels_per_scan_row - 1)) begin\n                    // Done with this line; wait for next.\n                    // Keep outputting the last pixel, but stop rendering\n                    line_active <= 0;\n                    begin_pixel <= 0;\n                end\n                else begin\n                    begin_pixel <= 1;\n                end\n            end\n        end\n    end\n    else begin\n        begin_pixel <= 0;\n        outgoing_trigger <= 0;\n    end\nend",
-                "params": [
-                  {
-                    "name": "pixels_per_scan_row"
-                  },
-                  {
-                    "name": "num_lanes"
-                  }
-                ],
-                "ports": {
-                  "in": [
-                    {
-                      "name": "clk"
-                    },
-                    {
-                      "name": "begin_line"
-                    },
-                    {
-                      "name": "rgb",
-                      "range": "[23:0]",
-                      "size": 24
-                    },
-                    {
-                      "name": "pixel_done"
-                    }
-                  ],
-                  "out": [
-                    {
-                      "name": "render_addr",
-                      "range": "[15:0]",
-                      "size": 16
-                    },
-                    {
-                      "name": "render_data",
-                      "range": "[17:0]",
-                      "size": 18
-                    },
-                    {
-                      "name": "render_we"
-                    },
-                    {
-                      "name": "begin_pixel"
-                    },
-                    {
-                      "name": "pixel_counter",
-                      "range": "[12:0]",
-                      "size": 13
-                    },
-                    {
-                      "name": "lane_counter",
-                      "range": "[2:0]",
-                      "size": 3
-                    }
-                  ]
-                }
-              },
-              "position": {
-                "x": 232,
-                "y": 144
-              },
-              "size": {
-                "width": 696,
-                "height": 896
-              }
-            },
-            {
-              "id": "8f91f0e9-2112-42ef-af97-8134c9a803fb",
-              "type": "basic.code",
-              "data": {
-                "code": "// Shaders only need to give us a one-cycle 'done' signal,\n// internally though we'd like it to be asserted any time\n// the shader isn't busy.\n\nreg latched_pixel_done = 0;\n\nalways @(posedge clk) begin\n    if (pixel_done)\n        latched_pixel_done <= 1;\n    else if (begin_pixel)\n        latched_pixel_done <= 0;\nend",
-                "params": [],
-                "ports": {
-                  "in": [
-                    {
-                      "name": "clk"
-                    },
-                    {
-                      "name": "pixel_done"
-                    },
-                    {
-                      "name": "begin_pixel"
-                    }
-                  ],
-                  "out": [
-                    {
-                      "name": "latched_pixel_done"
-                    }
-                  ]
-                }
-              },
-              "position": {
-                "x": -496,
-                "y": 816
-              },
-              "size": {
-                "width": 480,
-                "height": 224
-              }
-            }
-          ],
-          "wires": [
-            {
-              "source": {
-                "block": "83318c2e-37d7-4f21-b4ff-459da9e473b9",
-                "port": "out"
-              },
-              "target": {
-                "block": "d12554bf-049d-4b22-9c3e-0917cf6ced03",
-                "port": "clk"
-              }
-            },
-            {
-              "source": {
-                "block": "600e9a43-7987-4e13-b124-08f782dcd3f9",
-                "port": "out"
-              },
-              "target": {
-                "block": "d12554bf-049d-4b22-9c3e-0917cf6ced03",
-                "port": "begin_line"
-              }
-            },
-            {
-              "source": {
-                "block": "865e17c2-911e-48c7-bd0b-a0513e28668e",
-                "port": "out"
-              },
-              "target": {
-                "block": "d12554bf-049d-4b22-9c3e-0917cf6ced03",
-                "port": "rgb"
-              },
-              "size": 24
-            },
-            {
-              "source": {
-                "block": "8b58d2cd-7d70-4165-b0c5-96e2e113a64c",
-                "port": "constant-out"
-              },
-              "target": {
-                "block": "d12554bf-049d-4b22-9c3e-0917cf6ced03",
-                "port": "num_lanes"
-              }
-            },
-            {
-              "source": {
-                "block": "d12554bf-049d-4b22-9c3e-0917cf6ced03",
-                "port": "render_addr"
-              },
-              "target": {
-                "block": "b3de63d6-fe18-433b-a491-9c9c5121f52e",
-                "port": "in"
-              },
-              "size": 16
-            },
-            {
-              "source": {
-                "block": "d12554bf-049d-4b22-9c3e-0917cf6ced03",
-                "port": "render_data"
-              },
-              "target": {
-                "block": "c821bfa9-1453-4ccd-9d11-7c395546ddee",
-                "port": "in"
-              },
-              "size": 18
-            },
-            {
-              "source": {
-                "block": "d12554bf-049d-4b22-9c3e-0917cf6ced03",
-                "port": "begin_pixel"
-              },
-              "target": {
-                "block": "01f9c0f4-98e2-42f9-83bc-d3aadda560b4",
-                "port": "in"
-              }
-            },
-            {
-              "source": {
-                "block": "d12554bf-049d-4b22-9c3e-0917cf6ced03",
-                "port": "render_we"
-              },
-              "target": {
-                "block": "1c90bdaf-5adb-4f69-b918-4631f7c3011d",
-                "port": "in"
-              }
-            },
-            {
-              "source": {
-                "block": "773a1323-054a-4a44-9fd0-1f3257717eaa",
-                "port": "constant-out"
-              },
-              "target": {
-                "block": "d12554bf-049d-4b22-9c3e-0917cf6ced03",
-                "port": "pixels_per_scan_row"
-              }
-            },
-            {
-              "source": {
-                "block": "d12554bf-049d-4b22-9c3e-0917cf6ced03",
-                "port": "lane_counter"
-              },
-              "target": {
-                "block": "56dd7ced-6202-4ea1-a3b5-d650718f9459",
-                "port": "in"
-              },
-              "size": 3
-            },
-            {
-              "source": {
-                "block": "d12554bf-049d-4b22-9c3e-0917cf6ced03",
-                "port": "pixel_counter"
-              },
-              "target": {
-                "block": "ce14c7e6-c1db-4adf-aa9e-46ce0f286a90",
-                "port": "in"
-              },
-              "size": 13
-            },
-            {
-              "source": {
-                "block": "5fc1a499-6b3c-4deb-a74f-a2f970c375c4",
-                "port": "out"
-              },
-              "target": {
-                "block": "8f91f0e9-2112-42ef-af97-8134c9a803fb",
-                "port": "pixel_done"
-              }
-            },
-            {
-              "source": {
-                "block": "8f91f0e9-2112-42ef-af97-8134c9a803fb",
-                "port": "latched_pixel_done"
-              },
-              "target": {
-                "block": "d12554bf-049d-4b22-9c3e-0917cf6ced03",
-                "port": "pixel_done"
-              }
-            },
-            {
-              "source": {
-                "block": "d12554bf-049d-4b22-9c3e-0917cf6ced03",
-                "port": "begin_pixel"
-              },
-              "target": {
-                "block": "8f91f0e9-2112-42ef-af97-8134c9a803fb",
-                "port": "begin_pixel"
-              },
-              "vertices": [
-                {
-                  "x": 552,
-                  "y": 1104
-                }
-              ]
-            },
-            {
-              "source": {
-                "block": "83318c2e-37d7-4f21-b4ff-459da9e473b9",
-                "port": "out"
-              },
-              "target": {
-                "block": "8f91f0e9-2112-42ef-af97-8134c9a803fb",
-                "port": "clk"
               }
             }
           ]
@@ -3376,311 +2771,6 @@
         }
       }
     },
-    "884a0528f2b4a909d139c7b1447fa2af563f1508": {
-      "package": {
-        "name": "led-line-scan",
-        "version": "0.2",
-        "description": "Scan out data bits into LED shift register from the line buffer",
-        "author": "",
-        "image": ""
-      },
-      "design": {
-        "graph": {
-          "blocks": [
-            {
-              "id": "d759dc48-6f59-4ae7-a02e-bc876aa70ba7",
-              "type": "basic.input",
-              "data": {
-                "name": "clk",
-                "clock": true
-              },
-              "position": {
-                "x": 296,
-                "y": -64
-              }
-            },
-            {
-              "id": "ce7c7097-d3b6-40cd-abf1-f604737f31e9",
-              "type": "basic.output",
-              "data": {
-                "name": "busy"
-              },
-              "position": {
-                "x": 1104,
-                "y": 184
-              }
-            },
-            {
-              "id": "0b2ff775-3174-4dcd-9930-c04180760d37",
-              "type": "basic.output",
-              "data": {
-                "name": "sclk_pin"
-              },
-              "position": {
-                "x": 1720,
-                "y": 288
-              }
-            },
-            {
-              "id": "31d36c6e-86f7-4f52-a762-358b30f25b25",
-              "type": "basic.output",
-              "data": {
-                "name": "rgb_pins",
-                "range": "[17:0]",
-                "size": 18
-              },
-              "position": {
-                "x": 1112,
-                "y": 304
-              }
-            },
-            {
-              "id": "3b23e508-9bb9-4b5a-8785-1ea74070bc5b",
-              "type": "basic.input",
-              "data": {
-                "name": "begin_s",
-                "clock": false
-              },
-              "position": {
-                "x": 304,
-                "y": 360
-              }
-            },
-            {
-              "id": "04444fe3-0797-4c6b-843f-581f379b2b57",
-              "type": "basic.input",
-              "data": {
-                "name": "scan_data",
-                "range": "[17:0]",
-                "clock": false,
-                "size": 18
-              },
-              "position": {
-                "x": 272,
-                "y": 520
-              }
-            },
-            {
-              "id": "b4d555ed-8951-43df-a9eb-1824d805cc4b",
-              "type": "basic.output",
-              "data": {
-                "name": "pixel_counter",
-                "range": "[12:0]",
-                "size": 13
-              },
-              "position": {
-                "x": 1168,
-                "y": 544
-              }
-            },
-            {
-              "id": "04ff3835-cbdc-41a5-bd45-00751845c2fe",
-              "type": "basic.constant",
-              "data": {
-                "name": "pixels_per_scan_row",
-                "value": "64",
-                "local": false
-              },
-              "position": {
-                "x": 800,
-                "y": 16
-              }
-            },
-            {
-              "id": "75c4ad78-7001-414c-a9bd-9e4476bb3709",
-              "type": "basic.code",
-              "data": {
-                "code": "// Gating for shift register output\n// clock. rgb_en set to 1 at the same\n// cycle as new data latched at 'rgb',\n// and the rgb_en signal is latched\n// on the following negative edge.\n\n// Implememnted as a DDR output buffer\nSB_IO #(\n    // DDR output, regular input\n    .PIN_TYPE(6'b010001)\n) sclk_buf (\n    .PACKAGE_PIN(sclk),\n    .LATCH_INPUT_VALUE(1'b0),\n    .CLOCK_ENABLE(1'b1),\n    .INPUT_CLK(clk),\n    .OUTPUT_CLK(clk),\n    .OUTPUT_ENABLE(1'b1),\n    .D_OUT_0(1'b0),\n    .D_OUT_1(rgb_en)\n);",
-                "params": [],
-                "ports": {
-                  "in": [
-                    {
-                      "name": "clk"
-                    },
-                    {
-                      "name": "rgb_en"
-                    }
-                  ],
-                  "out": [
-                    {
-                      "name": "sclk"
-                    }
-                  ]
-                }
-              },
-              "position": {
-                "x": 1280,
-                "y": 136
-              },
-              "size": {
-                "width": 376,
-                "height": 368
-              }
-            },
-            {
-              "id": "8d247e8d-eae8-46e3-8105-f5c6f589acff",
-              "type": "basic.code",
-              "data": {
-                "code": "// Render one line of pixels from RAM\n\n// Scan-out state machine, reads individual\n// bit planes from the line buffer and outputs both\n// the bits and clock-enable signal for the bits.\n\nreg[12:0] pixel_counter = 0;\nreg[17:0] rgb = 0;\nreg busy = 0;\nreg rgb_en = 0;\n\nalways @(posedge clk) begin\n    if (begin_s) begin\n        pixel_counter <= 0;\n        rgb_en <= 0;\n        busy <= 1;\n    end\n    else if (busy) begin\n        rgb_en <= 1;\n        rgb <= scan_data;\n\n        if (pixel_counter == (pixels_per_scan_row - 1))\n            busy <= 0;\n        else\n            pixel_counter <= pixel_counter + 1;\n    end\n    else\n        rgb_en <= 0;\nend\n",
-                "params": [
-                  {
-                    "name": "pixels_per_scan_row"
-                  }
-                ],
-                "ports": {
-                  "in": [
-                    {
-                      "name": "clk"
-                    },
-                    {
-                      "name": "begin_s"
-                    },
-                    {
-                      "name": "scan_data",
-                      "range": "[17:0]",
-                      "size": 18
-                    }
-                  ],
-                  "out": [
-                    {
-                      "name": "busy"
-                    },
-                    {
-                      "name": "rgb",
-                      "range": "[17:0]",
-                      "size": 18
-                    },
-                    {
-                      "name": "rgb_en"
-                    },
-                    {
-                      "name": "pixel_counter",
-                      "range": "[12:0]",
-                      "size": 13
-                    }
-                  ]
-                }
-              },
-              "position": {
-                "x": 520,
-                "y": 152
-              },
-              "size": {
-                "width": 504,
-                "height": 480
-              }
-            }
-          ],
-          "wires": [
-            {
-              "source": {
-                "block": "75c4ad78-7001-414c-a9bd-9e4476bb3709",
-                "port": "sclk"
-              },
-              "target": {
-                "block": "0b2ff775-3174-4dcd-9930-c04180760d37",
-                "port": "in"
-              },
-              "vertices": []
-            },
-            {
-              "source": {
-                "block": "8d247e8d-eae8-46e3-8105-f5c6f589acff",
-                "port": "rgb_en"
-              },
-              "target": {
-                "block": "75c4ad78-7001-414c-a9bd-9e4476bb3709",
-                "port": "rgb_en"
-              },
-              "vertices": []
-            },
-            {
-              "source": {
-                "block": "04ff3835-cbdc-41a5-bd45-00751845c2fe",
-                "port": "constant-out"
-              },
-              "target": {
-                "block": "8d247e8d-eae8-46e3-8105-f5c6f589acff",
-                "port": "pixels_per_scan_row"
-              }
-            },
-            {
-              "source": {
-                "block": "d759dc48-6f59-4ae7-a02e-bc876aa70ba7",
-                "port": "out"
-              },
-              "target": {
-                "block": "8d247e8d-eae8-46e3-8105-f5c6f589acff",
-                "port": "clk"
-              }
-            },
-            {
-              "source": {
-                "block": "04444fe3-0797-4c6b-843f-581f379b2b57",
-                "port": "out"
-              },
-              "target": {
-                "block": "8d247e8d-eae8-46e3-8105-f5c6f589acff",
-                "port": "scan_data"
-              },
-              "size": 18
-            },
-            {
-              "source": {
-                "block": "8d247e8d-eae8-46e3-8105-f5c6f589acff",
-                "port": "rgb"
-              },
-              "target": {
-                "block": "31d36c6e-86f7-4f52-a762-358b30f25b25",
-                "port": "in"
-              },
-              "size": 18
-            },
-            {
-              "source": {
-                "block": "d759dc48-6f59-4ae7-a02e-bc876aa70ba7",
-                "port": "out"
-              },
-              "target": {
-                "block": "75c4ad78-7001-414c-a9bd-9e4476bb3709",
-                "port": "clk"
-              }
-            },
-            {
-              "source": {
-                "block": "3b23e508-9bb9-4b5a-8785-1ea74070bc5b",
-                "port": "out"
-              },
-              "target": {
-                "block": "8d247e8d-eae8-46e3-8105-f5c6f589acff",
-                "port": "begin_s"
-              }
-            },
-            {
-              "source": {
-                "block": "8d247e8d-eae8-46e3-8105-f5c6f589acff",
-                "port": "busy"
-              },
-              "target": {
-                "block": "ce7c7097-d3b6-40cd-abf1-f604737f31e9",
-                "port": "in"
-              }
-            },
-            {
-              "source": {
-                "block": "8d247e8d-eae8-46e3-8105-f5c6f589acff",
-                "port": "pixel_counter"
-              },
-              "target": {
-                "block": "b4d555ed-8951-43df-a9eb-1824d805cc4b",
-                "port": "in"
-              },
-              "size": 13
-            }
-          ]
-        }
-      }
-    },
     "d870df8ec002d5b5d99867102503e59297f5e1c5": {
       "package": {
         "name": "led-line-buf",
@@ -4666,6 +3756,929 @@
               "target": {
                 "block": "32c8288c-a1b0-4ea1-a9d9-0b07ea63943b",
                 "port": "in"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "0d7d6e4ae366205a71b7c4f626eca818204dfcad": {
+      "package": {
+        "name": "led-64x64",
+        "version": "0.2",
+        "description": "Addressing for a single 64x64 panel, 1:32 scan",
+        "author": "Micah Scott",
+        "image": ""
+      },
+      "design": {
+        "graph": {
+          "blocks": [
+            {
+              "id": "91f69a68-d983-46e0-bdaa-312cd47b8a3d",
+              "type": "basic.input",
+              "data": {
+                "name": "render_row",
+                "range": "[7:0]",
+                "clock": false,
+                "size": 8
+              },
+              "position": {
+                "x": 88,
+                "y": 176
+              }
+            },
+            {
+              "id": "54d3596d-20c5-4cdd-be07-5bad145da773",
+              "type": "basic.output",
+              "data": {
+                "name": "x",
+                "range": "[15:0]",
+                "size": 16
+              },
+              "position": {
+                "x": 944,
+                "y": 192
+              }
+            },
+            {
+              "id": "fc462251-5459-420f-8a2e-b14effa683da",
+              "type": "basic.input",
+              "data": {
+                "name": "pixel_counter",
+                "range": "[12:0]",
+                "clock": false,
+                "size": 13
+              },
+              "position": {
+                "x": 88,
+                "y": 248
+              }
+            },
+            {
+              "id": "23f1e6ff-549c-43a8-860e-1c3d121101cb",
+              "type": "basic.output",
+              "data": {
+                "name": "y",
+                "range": "[15:0]",
+                "size": 16
+              },
+              "position": {
+                "x": 944,
+                "y": 296
+              }
+            },
+            {
+              "id": "a2cdc675-8ff8-4563-a738-09074f58c624",
+              "type": "basic.input",
+              "data": {
+                "name": "lane_counter",
+                "range": "[2:0]",
+                "clock": false,
+                "size": 3
+              },
+              "position": {
+                "x": 88,
+                "y": 312
+              }
+            },
+            {
+              "id": "edf99c3f-09a8-48bd-937d-087878c9fda4",
+              "type": "basic.code",
+              "data": {
+                "code": "// Addressing for a single 64x64 panel with 1:32 scan\n//   - Two halves (lanes 0 and 1)\n//   - 64 LEDs per scan row == 64 per physical row\n\nassign x = { 10'b0, pixel_counter[5:0] };\nassign y = { 10'b0, lane_counter[0], render_row[4:0] };",
+                "params": [],
+                "ports": {
+                  "in": [
+                    {
+                      "name": "render_row",
+                      "range": "[7:0]",
+                      "size": 8
+                    },
+                    {
+                      "name": "pixel_counter",
+                      "range": "[12:0]",
+                      "size": 13
+                    },
+                    {
+                      "name": "lane_counter",
+                      "range": "[2:0]",
+                      "size": 3
+                    }
+                  ],
+                  "out": [
+                    {
+                      "name": "x",
+                      "range": "[15:0]",
+                      "size": 16
+                    },
+                    {
+                      "name": "y",
+                      "range": "[15:0]",
+                      "size": 16
+                    }
+                  ]
+                }
+              },
+              "position": {
+                "x": 320,
+                "y": 176
+              },
+              "size": {
+                "width": 536,
+                "height": 200
+              }
+            }
+          ],
+          "wires": [
+            {
+              "source": {
+                "block": "a2cdc675-8ff8-4563-a738-09074f58c624",
+                "port": "out"
+              },
+              "target": {
+                "block": "edf99c3f-09a8-48bd-937d-087878c9fda4",
+                "port": "lane_counter"
+              },
+              "size": 3
+            },
+            {
+              "source": {
+                "block": "edf99c3f-09a8-48bd-937d-087878c9fda4",
+                "port": "x"
+              },
+              "target": {
+                "block": "54d3596d-20c5-4cdd-be07-5bad145da773",
+                "port": "in"
+              },
+              "size": 16
+            },
+            {
+              "source": {
+                "block": "edf99c3f-09a8-48bd-937d-087878c9fda4",
+                "port": "y"
+              },
+              "target": {
+                "block": "23f1e6ff-549c-43a8-860e-1c3d121101cb",
+                "port": "in"
+              },
+              "size": 16
+            },
+            {
+              "source": {
+                "block": "fc462251-5459-420f-8a2e-b14effa683da",
+                "port": "out"
+              },
+              "target": {
+                "block": "edf99c3f-09a8-48bd-937d-087878c9fda4",
+                "port": "pixel_counter"
+              },
+              "size": 13
+            },
+            {
+              "source": {
+                "block": "91f69a68-d983-46e0-bdaa-312cd47b8a3d",
+                "port": "out"
+              },
+              "target": {
+                "block": "edf99c3f-09a8-48bd-937d-087878c9fda4",
+                "port": "render_row"
+              },
+              "size": 8
+            }
+          ]
+        }
+      }
+    },
+    "24d55aafa08d451ef3801fdd497a8e04161e61f8": {
+      "package": {
+        "name": "led-line-scan",
+        "version": "0.3",
+        "description": "Scan out data bits into LED shift register from the line buffer",
+        "author": "",
+        "image": ""
+      },
+      "design": {
+        "graph": {
+          "blocks": [
+            {
+              "id": "d759dc48-6f59-4ae7-a02e-bc876aa70ba7",
+              "type": "basic.input",
+              "data": {
+                "name": "clk",
+                "clock": true
+              },
+              "position": {
+                "x": 296,
+                "y": -64
+              }
+            },
+            {
+              "id": "ce7c7097-d3b6-40cd-abf1-f604737f31e9",
+              "type": "basic.output",
+              "data": {
+                "name": "busy"
+              },
+              "position": {
+                "x": 1104,
+                "y": 208
+              }
+            },
+            {
+              "id": "0b2ff775-3174-4dcd-9930-c04180760d37",
+              "type": "basic.output",
+              "data": {
+                "name": "sclk_pin"
+              },
+              "position": {
+                "x": 1720,
+                "y": 288
+              }
+            },
+            {
+              "id": "31d36c6e-86f7-4f52-a762-358b30f25b25",
+              "type": "basic.output",
+              "data": {
+                "name": "rgb_pins",
+                "range": "[17:0]",
+                "size": 18
+              },
+              "position": {
+                "x": 1112,
+                "y": 376
+              }
+            },
+            {
+              "id": "3b23e508-9bb9-4b5a-8785-1ea74070bc5b",
+              "type": "basic.input",
+              "data": {
+                "name": "begin_s",
+                "clock": false
+              },
+              "position": {
+                "x": 280,
+                "y": 400
+              }
+            },
+            {
+              "id": "04444fe3-0797-4c6b-843f-581f379b2b57",
+              "type": "basic.input",
+              "data": {
+                "name": "scan_data",
+                "range": "[17:0]",
+                "clock": false,
+                "size": 18
+              },
+              "position": {
+                "x": 248,
+                "y": 616
+              }
+            },
+            {
+              "id": "b4d555ed-8951-43df-a9eb-1824d805cc4b",
+              "type": "basic.output",
+              "data": {
+                "name": "pixel_counter",
+                "range": "[12:0]",
+                "size": 13
+              },
+              "position": {
+                "x": 1192,
+                "y": 712
+              }
+            },
+            {
+              "id": "04ff3835-cbdc-41a5-bd45-00751845c2fe",
+              "type": "basic.constant",
+              "data": {
+                "name": "pixels_per_scan_row",
+                "value": "64",
+                "local": false
+              },
+              "position": {
+                "x": 792,
+                "y": 24
+              }
+            },
+            {
+              "id": "75c4ad78-7001-414c-a9bd-9e4476bb3709",
+              "type": "basic.code",
+              "data": {
+                "code": "// Gating for shift register output\n// clock. rgb_en set to 1 at the same\n// cycle as new data latched at 'rgb',\n// and the rgb_en signal is latched\n// on the following negative edge.\n\n// Implememnted as a DDR output buffer\nSB_IO #(\n    // DDR output, regular input\n    .PIN_TYPE(6'b010001)\n) sclk_buf (\n    .PACKAGE_PIN(sclk),\n    .LATCH_INPUT_VALUE(1'b0),\n    .CLOCK_ENABLE(1'b1),\n    .INPUT_CLK(clk),\n    .OUTPUT_CLK(clk),\n    .OUTPUT_ENABLE(1'b1),\n    .D_OUT_0(1'b0),\n    .D_OUT_1(rgb_en)\n);",
+                "params": [],
+                "ports": {
+                  "in": [
+                    {
+                      "name": "clk"
+                    },
+                    {
+                      "name": "rgb_en"
+                    }
+                  ],
+                  "out": [
+                    {
+                      "name": "sclk"
+                    }
+                  ]
+                }
+              },
+              "position": {
+                "x": 1280,
+                "y": 136
+              },
+              "size": {
+                "width": 376,
+                "height": 368
+              }
+            },
+            {
+              "id": "8d247e8d-eae8-46e3-8105-f5c6f589acff",
+              "type": "basic.code",
+              "data": {
+                "code": "// Count one clock per pixel\n\nreg[12:0] pixel_counter = 0;\nreg counter_running = 0;\n\nalways @(posedge clk) begin\n    if (begin_s) begin\n        pixel_counter <= 0;\n        counter_running <= 1;\n    end\n    else if (counter_running) begin\n        if (pixel_counter == (pixels_per_scan_row - 1))\n            counter_running <= 0;\n        else\n            pixel_counter <= pixel_counter + 1;\n    end\nend\n\n// Allow one cycle for the RAM to fetch scan_data.\n\nreg delayed_running = 0;\nalways @(posedge clk) delayed_running <= counter_running;\n\n// Transfer data and data-enable to output registers\n// on the same clock cycle\n\nreg[17:0] rgb = 0;\nreg rgb_en = 0;\n\nalways @(posedge clk) begin\n    rgb <= scan_data;\n    rgb_en <= delayed_running;\nend\n\n// Busy as long as the counter is running or we're waiting to\n// finish clocking out the last bit\n\nassign busy = counter_running || delayed_running || rgb_en;\n",
+                "params": [
+                  {
+                    "name": "pixels_per_scan_row"
+                  }
+                ],
+                "ports": {
+                  "in": [
+                    {
+                      "name": "clk"
+                    },
+                    {
+                      "name": "begin_s"
+                    },
+                    {
+                      "name": "scan_data",
+                      "range": "[17:0]",
+                      "size": 18
+                    }
+                  ],
+                  "out": [
+                    {
+                      "name": "busy"
+                    },
+                    {
+                      "name": "rgb",
+                      "range": "[17:0]",
+                      "size": 18
+                    },
+                    {
+                      "name": "rgb_en"
+                    },
+                    {
+                      "name": "pixel_counter",
+                      "range": "[12:0]",
+                      "size": 13
+                    }
+                  ]
+                }
+              },
+              "position": {
+                "x": 520,
+                "y": 152
+              },
+              "size": {
+                "width": 512,
+                "height": 680
+              }
+            }
+          ],
+          "wires": [
+            {
+              "source": {
+                "block": "75c4ad78-7001-414c-a9bd-9e4476bb3709",
+                "port": "sclk"
+              },
+              "target": {
+                "block": "0b2ff775-3174-4dcd-9930-c04180760d37",
+                "port": "in"
+              },
+              "vertices": []
+            },
+            {
+              "source": {
+                "block": "8d247e8d-eae8-46e3-8105-f5c6f589acff",
+                "port": "rgb_en"
+              },
+              "target": {
+                "block": "75c4ad78-7001-414c-a9bd-9e4476bb3709",
+                "port": "rgb_en"
+              },
+              "vertices": []
+            },
+            {
+              "source": {
+                "block": "04ff3835-cbdc-41a5-bd45-00751845c2fe",
+                "port": "constant-out"
+              },
+              "target": {
+                "block": "8d247e8d-eae8-46e3-8105-f5c6f589acff",
+                "port": "pixels_per_scan_row"
+              }
+            },
+            {
+              "source": {
+                "block": "d759dc48-6f59-4ae7-a02e-bc876aa70ba7",
+                "port": "out"
+              },
+              "target": {
+                "block": "8d247e8d-eae8-46e3-8105-f5c6f589acff",
+                "port": "clk"
+              }
+            },
+            {
+              "source": {
+                "block": "04444fe3-0797-4c6b-843f-581f379b2b57",
+                "port": "out"
+              },
+              "target": {
+                "block": "8d247e8d-eae8-46e3-8105-f5c6f589acff",
+                "port": "scan_data"
+              },
+              "size": 18
+            },
+            {
+              "source": {
+                "block": "8d247e8d-eae8-46e3-8105-f5c6f589acff",
+                "port": "rgb"
+              },
+              "target": {
+                "block": "31d36c6e-86f7-4f52-a762-358b30f25b25",
+                "port": "in"
+              },
+              "size": 18
+            },
+            {
+              "source": {
+                "block": "d759dc48-6f59-4ae7-a02e-bc876aa70ba7",
+                "port": "out"
+              },
+              "target": {
+                "block": "75c4ad78-7001-414c-a9bd-9e4476bb3709",
+                "port": "clk"
+              }
+            },
+            {
+              "source": {
+                "block": "3b23e508-9bb9-4b5a-8785-1ea74070bc5b",
+                "port": "out"
+              },
+              "target": {
+                "block": "8d247e8d-eae8-46e3-8105-f5c6f589acff",
+                "port": "begin_s"
+              }
+            },
+            {
+              "source": {
+                "block": "8d247e8d-eae8-46e3-8105-f5c6f589acff",
+                "port": "busy"
+              },
+              "target": {
+                "block": "ce7c7097-d3b6-40cd-abf1-f604737f31e9",
+                "port": "in"
+              }
+            },
+            {
+              "source": {
+                "block": "8d247e8d-eae8-46e3-8105-f5c6f589acff",
+                "port": "pixel_counter"
+              },
+              "target": {
+                "block": "b4d555ed-8951-43df-a9eb-1824d805cc4b",
+                "port": "in"
+              },
+              "size": 13
+            }
+          ]
+        }
+      }
+    },
+    "ff2ae49d8e863cee1f38d638e3182106e0b23f0d": {
+      "package": {
+        "name": "led-line-render",
+        "version": "0.1",
+        "description": "Fill an LED line buffer, using data from an external pixel shader",
+        "author": "Micah Scott",
+        "image": ""
+      },
+      "design": {
+        "graph": {
+          "blocks": [
+            {
+              "id": "b3de63d6-fe18-433b-a491-9c9c5121f52e",
+              "type": "basic.output",
+              "data": {
+                "name": "render_addr",
+                "range": "[15:0]",
+                "size": 16
+              },
+              "position": {
+                "x": 1104,
+                "y": 184
+              }
+            },
+            {
+              "id": "83318c2e-37d7-4f21-b4ff-459da9e473b9",
+              "type": "basic.input",
+              "data": {
+                "name": "clk",
+                "clock": true
+              },
+              "position": {
+                "x": -672,
+                "y": 224
+              }
+            },
+            {
+              "id": "c821bfa9-1453-4ccd-9d11-7c395546ddee",
+              "type": "basic.output",
+              "data": {
+                "name": "render_data",
+                "range": "[17:0]",
+                "size": 18
+              },
+              "position": {
+                "x": 1096,
+                "y": 336
+              }
+            },
+            {
+              "id": "600e9a43-7987-4e13-b124-08f782dcd3f9",
+              "type": "basic.input",
+              "data": {
+                "name": "begin_line",
+                "clock": false
+              },
+              "position": {
+                "x": 24,
+                "y": 448
+              }
+            },
+            {
+              "id": "1c90bdaf-5adb-4f69-b918-4631f7c3011d",
+              "type": "basic.output",
+              "data": {
+                "name": "render_we"
+              },
+              "position": {
+                "x": 1088,
+                "y": 488
+              }
+            },
+            {
+              "id": "01f9c0f4-98e2-42f9-83bc-d3aadda560b4",
+              "type": "basic.output",
+              "data": {
+                "name": "begin_pixel"
+              },
+              "position": {
+                "x": 1088,
+                "y": 632
+              }
+            },
+            {
+              "id": "865e17c2-911e-48c7-bd0b-a0513e28668e",
+              "type": "basic.input",
+              "data": {
+                "name": "rgb",
+                "range": "[23:0]",
+                "clock": false,
+                "size": 24
+              },
+              "position": {
+                "x": 24,
+                "y": 672
+              }
+            },
+            {
+              "id": "ce14c7e6-c1db-4adf-aa9e-46ce0f286a90",
+              "type": "basic.output",
+              "data": {
+                "name": "pixel_counter",
+                "range": "[12:0]",
+                "size": 13
+              },
+              "position": {
+                "x": 1088,
+                "y": 784
+              }
+            },
+            {
+              "id": "5fc1a499-6b3c-4deb-a74f-a2f970c375c4",
+              "type": "basic.input",
+              "data": {
+                "name": "pixel_done",
+                "clock": false
+              },
+              "position": {
+                "x": -704,
+                "y": 896
+              }
+            },
+            {
+              "id": "56dd7ced-6202-4ea1-a3b5-d650718f9459",
+              "type": "basic.output",
+              "data": {
+                "name": "lane_counter",
+                "range": "[2:0]",
+                "size": 3
+              },
+              "position": {
+                "x": 1088,
+                "y": 936
+              }
+            },
+            {
+              "id": "773a1323-054a-4a44-9fd0-1f3257717eaa",
+              "type": "basic.constant",
+              "data": {
+                "name": "pixels_per_scan_row",
+                "value": "64",
+                "local": false
+              },
+              "position": {
+                "x": 432,
+                "y": 32
+              }
+            },
+            {
+              "id": "8b58d2cd-7d70-4165-b0c5-96e2e113a64c",
+              "type": "basic.constant",
+              "data": {
+                "name": "num_lanes",
+                "value": "2",
+                "local": false
+              },
+              "position": {
+                "x": 776,
+                "y": 32
+              }
+            },
+            {
+              "id": "d12554bf-049d-4b22-9c3e-0917cf6ced03",
+              "type": "basic.code",
+              "data": {
+                "code": "// Double-buffer for one pixel from each lane.\nreg [23:0] pixel_buffer [0:2*num_lanes-1];\n\n// Outgoing: when triggered, send current pixel from all lanes\n// via render_* signals to the line buffer. Iterates over bitplanes.\n\nreg [15:0] render_addr = 0;\nreg [17:0] render_data = 0;\nreg render_we = 0;\nreg [2:0] bitplane_counter = 0;\nreg outgoing_active = 0;\nparameter num_bitplanes = 8;\n\nwire [23:0] lane0_rgb = pixel_buffer[{ 3'h0, !pixel_counter[0] }];\nwire [23:0] lane1_rgb = pixel_buffer[{ 3'h1, !pixel_counter[0] }];\nwire [23:0] lane2_rgb = pixel_buffer[{ 3'h2, !pixel_counter[0] }];\nwire [23:0] lane3_rgb = pixel_buffer[{ 3'h3, !pixel_counter[0] }];\nwire [23:0] lane4_rgb = pixel_buffer[{ 3'h4, !pixel_counter[0] }];\nwire [23:0] lane5_rgb = pixel_buffer[{ 3'h5, !pixel_counter[0] }];\n\nalways @(posedge clk) begin\n    if (outgoing_trigger) begin\n        outgoing_active <= 1;\n        bitplane_counter <= 0;\n        render_we <= 0;\n    end\n    else if (outgoing_active) begin\n        // Address in line buffer: current pixel (pixel_counter was\n        // already incremented to work on the next one), plane index\n        render_addr <= { pixel_counter_previous, bitplane_counter };\n\n        // Data for line buffer: one bit from every lane, RGBRGBRGB...\n        render_data <= {\n            lane5_rgb[{2'h2, bitplane_counter}],\n            lane5_rgb[{2'h1, bitplane_counter}],\n            lane5_rgb[{2'h0, bitplane_counter}],\n            lane4_rgb[{2'h2, bitplane_counter}],\n            lane4_rgb[{2'h1, bitplane_counter}],\n            lane4_rgb[{2'h0, bitplane_counter}],\n            lane3_rgb[{2'h2, bitplane_counter}],\n            lane3_rgb[{2'h1, bitplane_counter}],\n            lane3_rgb[{2'h0, bitplane_counter}],\n            lane2_rgb[{2'h2, bitplane_counter}],\n            lane2_rgb[{2'h1, bitplane_counter}],\n            lane2_rgb[{2'h0, bitplane_counter}],\n            lane1_rgb[{2'h2, bitplane_counter}],\n            lane1_rgb[{2'h1, bitplane_counter}],\n            lane1_rgb[{2'h0, bitplane_counter}],\n            lane0_rgb[{2'h2, bitplane_counter}],\n            lane0_rgb[{2'h1, bitplane_counter}],\n            lane0_rgb[{2'h0, bitplane_counter}]\n        };\n        \n        render_we <= 1;\n        if (bitplane_counter == (num_bitplanes - 1)) begin\n            outgoing_active <= 0;\n        end\n        else begin\n            bitplane_counter <= bitplane_counter + 1;\n        end\n    end\n    else begin\n        // Output is idle\n        render_we <= 0;\n    end\nend\n\n// Pixel iteration: When triggered by the refresh module,\n// start outputting each pixel in a line, coordinating with the\n// outgoing state machine above.\n\nreg outgoing_trigger = 0;\nreg begin_pixel = 0;\nreg line_active = 0;\nreg [12:0] pixel_counter = 0;\nwire [12:0] pixel_counter_previous = pixel_counter - 13'h1;\nreg [2:0] lane_counter = 0;\n\nalways @(posedge clk) begin\n    if (begin_line) begin\n        begin_pixel <= 1;\n        line_active <= 1;\n        outgoing_trigger <= 0;\n        pixel_counter <= 0;\n        lane_counter <= 0;\n    end\n    else if (line_active && pixel_done && !begin_pixel) begin\n        // Still looping, and we have a rendered pixel to store\n        pixel_buffer[{ lane_counter, pixel_counter[0] }] <= rgb;\n        \n        if (lane_counter != (num_lanes - 1)) begin\n            // Render pixel for next lane next\n            lane_counter <= lane_counter + 1;\n            begin_pixel <= 1;\n        end\n        else begin\n            // Just finished all lanes for one pixel; output that\n            // pixel while we work on the next one (or while inactive,\n            // for the last pixel). Here we may need to wait for the\n            // outgoing state machine if it's still busy\n            \n            if (outgoing_active) begin\n                // Still waiting on outgoing state machine\n                begin_pixel <= 0;\n            end \n            else begin\n                outgoing_trigger <= 1;\n                lane_counter <= 0;\n                pixel_counter <= pixel_counter + 1;\n                if (pixel_counter == (pixels_per_scan_row - 1)) begin\n                    // Done with this line; wait for next.\n                    // Keep outputting the last pixel, but stop rendering\n                    line_active <= 0;\n                    begin_pixel <= 0;\n                end\n                else begin\n                    begin_pixel <= 1;\n                end\n            end\n        end\n    end\n    else begin\n        begin_pixel <= 0;\n        outgoing_trigger <= 0;\n    end\nend",
+                "params": [
+                  {
+                    "name": "pixels_per_scan_row"
+                  },
+                  {
+                    "name": "num_lanes"
+                  }
+                ],
+                "ports": {
+                  "in": [
+                    {
+                      "name": "clk"
+                    },
+                    {
+                      "name": "begin_line"
+                    },
+                    {
+                      "name": "rgb",
+                      "range": "[23:0]",
+                      "size": 24
+                    },
+                    {
+                      "name": "pixel_done"
+                    }
+                  ],
+                  "out": [
+                    {
+                      "name": "render_addr",
+                      "range": "[15:0]",
+                      "size": 16
+                    },
+                    {
+                      "name": "render_data",
+                      "range": "[17:0]",
+                      "size": 18
+                    },
+                    {
+                      "name": "render_we"
+                    },
+                    {
+                      "name": "begin_pixel"
+                    },
+                    {
+                      "name": "pixel_counter",
+                      "range": "[12:0]",
+                      "size": 13
+                    },
+                    {
+                      "name": "lane_counter",
+                      "range": "[2:0]",
+                      "size": 3
+                    }
+                  ]
+                }
+              },
+              "position": {
+                "x": 232,
+                "y": 144
+              },
+              "size": {
+                "width": 696,
+                "height": 896
+              }
+            },
+            {
+              "id": "8f91f0e9-2112-42ef-af97-8134c9a803fb",
+              "type": "basic.code",
+              "data": {
+                "code": "// Shaders only need to give us a one-cycle 'done' signal,\n// internally though we'd like it to be asserted any time\n// the shader isn't busy.\n\nreg latched_pixel_done = 0;\n\nalways @(posedge clk) begin\n    if (pixel_done)\n        latched_pixel_done <= 1;\n    else if (begin_pixel)\n        latched_pixel_done <= 0;\nend",
+                "params": [],
+                "ports": {
+                  "in": [
+                    {
+                      "name": "clk"
+                    },
+                    {
+                      "name": "pixel_done"
+                    },
+                    {
+                      "name": "begin_pixel"
+                    }
+                  ],
+                  "out": [
+                    {
+                      "name": "latched_pixel_done"
+                    }
+                  ]
+                }
+              },
+              "position": {
+                "x": -504,
+                "y": 816
+              },
+              "size": {
+                "width": 528,
+                "height": 224
+              }
+            }
+          ],
+          "wires": [
+            {
+              "source": {
+                "block": "83318c2e-37d7-4f21-b4ff-459da9e473b9",
+                "port": "out"
+              },
+              "target": {
+                "block": "d12554bf-049d-4b22-9c3e-0917cf6ced03",
+                "port": "clk"
+              }
+            },
+            {
+              "source": {
+                "block": "600e9a43-7987-4e13-b124-08f782dcd3f9",
+                "port": "out"
+              },
+              "target": {
+                "block": "d12554bf-049d-4b22-9c3e-0917cf6ced03",
+                "port": "begin_line"
+              }
+            },
+            {
+              "source": {
+                "block": "865e17c2-911e-48c7-bd0b-a0513e28668e",
+                "port": "out"
+              },
+              "target": {
+                "block": "d12554bf-049d-4b22-9c3e-0917cf6ced03",
+                "port": "rgb"
+              },
+              "size": 24
+            },
+            {
+              "source": {
+                "block": "8b58d2cd-7d70-4165-b0c5-96e2e113a64c",
+                "port": "constant-out"
+              },
+              "target": {
+                "block": "d12554bf-049d-4b22-9c3e-0917cf6ced03",
+                "port": "num_lanes"
+              }
+            },
+            {
+              "source": {
+                "block": "d12554bf-049d-4b22-9c3e-0917cf6ced03",
+                "port": "render_addr"
+              },
+              "target": {
+                "block": "b3de63d6-fe18-433b-a491-9c9c5121f52e",
+                "port": "in"
+              },
+              "size": 16
+            },
+            {
+              "source": {
+                "block": "d12554bf-049d-4b22-9c3e-0917cf6ced03",
+                "port": "render_data"
+              },
+              "target": {
+                "block": "c821bfa9-1453-4ccd-9d11-7c395546ddee",
+                "port": "in"
+              },
+              "size": 18
+            },
+            {
+              "source": {
+                "block": "d12554bf-049d-4b22-9c3e-0917cf6ced03",
+                "port": "begin_pixel"
+              },
+              "target": {
+                "block": "01f9c0f4-98e2-42f9-83bc-d3aadda560b4",
+                "port": "in"
+              }
+            },
+            {
+              "source": {
+                "block": "d12554bf-049d-4b22-9c3e-0917cf6ced03",
+                "port": "render_we"
+              },
+              "target": {
+                "block": "1c90bdaf-5adb-4f69-b918-4631f7c3011d",
+                "port": "in"
+              }
+            },
+            {
+              "source": {
+                "block": "773a1323-054a-4a44-9fd0-1f3257717eaa",
+                "port": "constant-out"
+              },
+              "target": {
+                "block": "d12554bf-049d-4b22-9c3e-0917cf6ced03",
+                "port": "pixels_per_scan_row"
+              }
+            },
+            {
+              "source": {
+                "block": "d12554bf-049d-4b22-9c3e-0917cf6ced03",
+                "port": "lane_counter"
+              },
+              "target": {
+                "block": "56dd7ced-6202-4ea1-a3b5-d650718f9459",
+                "port": "in"
+              },
+              "size": 3
+            },
+            {
+              "source": {
+                "block": "d12554bf-049d-4b22-9c3e-0917cf6ced03",
+                "port": "pixel_counter"
+              },
+              "target": {
+                "block": "ce14c7e6-c1db-4adf-aa9e-46ce0f286a90",
+                "port": "in"
+              },
+              "size": 13
+            },
+            {
+              "source": {
+                "block": "5fc1a499-6b3c-4deb-a74f-a2f970c375c4",
+                "port": "out"
+              },
+              "target": {
+                "block": "8f91f0e9-2112-42ef-af97-8134c9a803fb",
+                "port": "pixel_done"
+              }
+            },
+            {
+              "source": {
+                "block": "8f91f0e9-2112-42ef-af97-8134c9a803fb",
+                "port": "latched_pixel_done"
+              },
+              "target": {
+                "block": "d12554bf-049d-4b22-9c3e-0917cf6ced03",
+                "port": "pixel_done"
+              }
+            },
+            {
+              "source": {
+                "block": "d12554bf-049d-4b22-9c3e-0917cf6ced03",
+                "port": "begin_pixel"
+              },
+              "target": {
+                "block": "8f91f0e9-2112-42ef-af97-8134c9a803fb",
+                "port": "begin_pixel"
+              },
+              "vertices": [
+                {
+                  "x": 552,
+                  "y": 1104
+                }
+              ]
+            },
+            {
+              "source": {
+                "block": "83318c2e-37d7-4f21-b4ff-459da9e473b9",
+                "port": "out"
+              },
+              "target": {
+                "block": "8f91f0e9-2112-42ef-af97-8134c9a803fb",
+                "port": "clk"
               }
             }
           ]
