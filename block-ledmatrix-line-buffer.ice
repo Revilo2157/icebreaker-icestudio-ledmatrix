@@ -2,7 +2,7 @@
   "version": "1.2",
   "package": {
     "name": "led-line-buf",
-    "version": "0.1",
+    "version": "0.2",
     "description": "Dual port block RAM for storing LED line between rendering and scan",
     "author": "",
     "image": ""
@@ -27,42 +27,37 @@
             "clock": true
           },
           "position": {
-            "x": 232,
+            "x": 240,
             "y": 48
           }
         },
         {
-          "id": "7c4b2eb5-1721-4fd9-a8de-a420f103c639",
+          "id": "e21bdc74-2de0-4f43-baae-52b6e3df144b",
           "type": "basic.input",
           "data": {
-            "name": "scan_row",
-            "range": "[7:0]",
+            "name": "toggle",
             "pins": [
               {
-                "index": "7",
+                "index": "0",
                 "name": "",
                 "value": ""
-              },
-              {
-                "index": "6",
-                "name": "",
-                "value": ""
-              },
-              {
-                "index": "5",
-                "name": "",
-                "value": ""
-              },
-              {
-                "index": "4",
-                "name": "",
-                "value": ""
-              },
-              {
-                "index": "3",
-                "name": "",
-                "value": ""
-              },
+              }
+            ],
+            "virtual": true,
+            "clock": false
+          },
+          "position": {
+            "x": 240,
+            "y": 104
+          }
+        },
+        {
+          "id": "bb5e5f07-5cd8-498d-b2cd-7aede990718a",
+          "type": "basic.input",
+          "data": {
+            "name": "scan_plane",
+            "range": "[2:0]",
+            "pins": [
               {
                 "index": "2",
                 "name": "",
@@ -83,32 +78,17 @@
             "clock": false
           },
           "position": {
-            "x": 232,
-            "y": 104
+            "x": -376,
+            "y": 120
           }
         },
         {
-          "id": "bd8b81cc-b1c2-41d2-9377-e0b6baf4fd41",
+          "id": "1c3fd3f8-8144-4bbe-a015-912e491fc09a",
           "type": "basic.input",
           "data": {
-            "name": "scan_addr",
-            "range": "[15:0]",
+            "name": "scan_pixel",
+            "range": "[12:0]",
             "pins": [
-              {
-                "index": "15",
-                "name": "",
-                "value": ""
-              },
-              {
-                "index": "14",
-                "name": "",
-                "value": ""
-              },
-              {
-                "index": "13",
-                "name": "",
-                "value": ""
-              },
               {
                 "index": "12",
                 "name": "",
@@ -179,8 +159,8 @@
             "clock": false
           },
           "position": {
-            "x": 232,
-            "y": 160
+            "x": -376,
+            "y": 176
           }
         },
         {
@@ -380,7 +360,7 @@
             "clock": false
           },
           "position": {
-            "x": 232,
+            "x": 240,
             "y": 216
           }
         },
@@ -486,7 +466,7 @@
             "clock": false
           },
           "position": {
-            "x": 232,
+            "x": 240,
             "y": 272
           }
         },
@@ -506,7 +486,7 @@
             "clock": false
           },
           "position": {
-            "x": 232,
+            "x": 240,
             "y": 328
           }
         },
@@ -537,10 +517,47 @@
           }
         },
         {
+          "id": "604b14f8-4a36-49a4-8590-c485ab4a09d0",
+          "type": "basic.code",
+          "data": {
+            "code": "assign addr = { pixel, plane };",
+            "params": [],
+            "ports": {
+              "in": [
+                {
+                  "name": "plane",
+                  "range": "[2:0]",
+                  "size": 3
+                },
+                {
+                  "name": "pixel",
+                  "range": "[12:0]",
+                  "size": 13
+                }
+              ],
+              "out": [
+                {
+                  "name": "addr",
+                  "range": "[15:0]",
+                  "size": 16
+                }
+              ]
+            }
+          },
+          "position": {
+            "x": -128,
+            "y": 160
+          },
+          "size": {
+            "width": 312,
+            "height": 64
+          }
+        },
+        {
           "id": "715f470c-48df-40bd-b16b-f37b6a972afb",
           "type": "basic.code",
           "data": {
-            "code": "// Memory organized by pixel and by bit plane, enough to\n// double-buffer one row of pixels, between rendering and\n// brightness modulation where they must be output in\n// a different order and repeatedly.\n\nparameter num_buffers = 2;\nparameter num_planes = 8;\nparameter scan_data_width = num_lanes * 3;\n\nreg [scan_data_width-1:0] ram [0:num_buffers*num_planes*(pixels_per_scan_row)-1];\n\nwire buffer_toggle = scan_row[0];\nreg [17:0] scan_data;\n\nalways @(posedge clk)\n    if (render_we)\n        ram[{ render_addr, buffer_toggle }] <= render_data[scan_data_width-1:0];\n        \nalways @(posedge clk)\n    scan_data <= ram[{ scan_addr, !buffer_toggle }];\n",
+            "code": "// Memory organized by pixel and by bit plane, enough to\n// double-buffer one row of pixels, between rendering and\n// brightness modulation where they must be output in\n// a different order and repeatedly.\n\nparameter num_buffers = 2;\nparameter num_planes = 8;\nparameter scan_data_width = num_lanes * 3;\n\nreg [scan_data_width-1:0] ram [0:num_buffers*num_planes*(pixels_per_scan_row)-1];\n\nreg [17:0] scan_data;\n\nalways @(posedge clk)\n    if (render_we)\n        ram[{ render_addr, toggle }] <= render_data[scan_data_width-1:0];\n        \nalways @(posedge clk)\n    scan_data <= ram[{ scan_addr, !toggle }];\n",
             "params": [
               {
                 "name": "pixels_per_scan_row"
@@ -555,9 +572,7 @@
                   "name": "clk"
                 },
                 {
-                  "name": "scan_row",
-                  "range": "[7:0]",
-                  "size": 8
+                  "name": "toggle"
                 },
                 {
                   "name": "scan_addr",
@@ -592,8 +607,8 @@
             "y": 48
           },
           "size": {
-            "width": 688,
-            "height": 344
+            "width": 696,
+            "height": 352
           }
         }
       ],
@@ -618,28 +633,6 @@
             "block": "715f470c-48df-40bd-b16b-f37b6a972afb",
             "port": "clk"
           }
-        },
-        {
-          "source": {
-            "block": "7c4b2eb5-1721-4fd9-a8de-a420f103c639",
-            "port": "out"
-          },
-          "target": {
-            "block": "715f470c-48df-40bd-b16b-f37b6a972afb",
-            "port": "scan_row"
-          },
-          "size": 8
-        },
-        {
-          "source": {
-            "block": "bd8b81cc-b1c2-41d2-9377-e0b6baf4fd41",
-            "port": "out"
-          },
-          "target": {
-            "block": "715f470c-48df-40bd-b16b-f37b6a972afb",
-            "port": "scan_addr"
-          },
-          "size": 16
         },
         {
           "source": {
@@ -692,6 +685,49 @@
           "target": {
             "block": "715f470c-48df-40bd-b16b-f37b6a972afb",
             "port": "render_we"
+          }
+        },
+        {
+          "source": {
+            "block": "604b14f8-4a36-49a4-8590-c485ab4a09d0",
+            "port": "addr"
+          },
+          "target": {
+            "block": "715f470c-48df-40bd-b16b-f37b6a972afb",
+            "port": "scan_addr"
+          },
+          "size": 16
+        },
+        {
+          "source": {
+            "block": "bb5e5f07-5cd8-498d-b2cd-7aede990718a",
+            "port": "out"
+          },
+          "target": {
+            "block": "604b14f8-4a36-49a4-8590-c485ab4a09d0",
+            "port": "plane"
+          },
+          "size": 3
+        },
+        {
+          "source": {
+            "block": "1c3fd3f8-8144-4bbe-a015-912e491fc09a",
+            "port": "out"
+          },
+          "target": {
+            "block": "604b14f8-4a36-49a4-8590-c485ab4a09d0",
+            "port": "pixel"
+          },
+          "size": 13
+        },
+        {
+          "source": {
+            "block": "e21bdc74-2de0-4f43-baae-52b6e3df144b",
+            "port": "out"
+          },
+          "target": {
+            "block": "715f470c-48df-40bd-b16b-f37b6a972afb",
+            "port": "toggle"
           }
         }
       ]

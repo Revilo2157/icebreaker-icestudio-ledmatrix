@@ -2,7 +2,7 @@
   "version": "1.2",
   "package": {
     "name": "led-line-scan",
-    "version": "0.1",
+    "version": "0.2",
     "description": "Scan out data bits into LED shift register from the line buffer",
     "author": "",
     "image": ""
@@ -27,7 +27,7 @@
             "clock": true
           },
           "position": {
-            "x": 256,
+            "x": 296,
             "y": -64
           }
         },
@@ -35,7 +35,7 @@
           "id": "ce7c7097-d3b6-40cd-abf1-f604737f31e9",
           "type": "basic.output",
           "data": {
-            "name": "done_out",
+            "name": "busy",
             "pins": [
               {
                 "index": "0",
@@ -46,28 +46,27 @@
             "virtual": true
           },
           "position": {
-            "x": 1096,
-            "y": 176
+            "x": 1104,
+            "y": 184
           }
         },
         {
-          "id": "3b23e508-9bb9-4b5a-8785-1ea74070bc5b",
-          "type": "basic.input",
+          "id": "0b2ff775-3174-4dcd-9930-c04180760d37",
+          "type": "basic.output",
           "data": {
-            "name": "begin_in",
+            "name": "sclk_pin",
             "pins": [
               {
                 "index": "0",
-                "name": "",
-                "value": ""
+                "name": "P1_B9",
+                "value": "32"
               }
             ],
-            "virtual": true,
-            "clock": false
+            "virtual": true
           },
           "position": {
-            "x": 272,
-            "y": 280
+            "x": 1720,
+            "y": 288
           }
         },
         {
@@ -171,46 +170,16 @@
             "virtual": true
           },
           "position": {
-            "x": 1096,
-            "y": 280
+            "x": 1112,
+            "y": 304
           }
         },
         {
-          "id": "0b2ff775-3174-4dcd-9930-c04180760d37",
-          "type": "basic.output",
-          "data": {
-            "name": "sclk_pin",
-            "pins": [
-              {
-                "index": "0",
-                "name": "P1_B9",
-                "value": "32"
-              }
-            ],
-            "virtual": true
-          },
-          "position": {
-            "x": 1720,
-            "y": 288
-          }
-        },
-        {
-          "id": "8ce17f6f-a7f8-414e-8ab6-b165f9c37b74",
+          "id": "3b23e508-9bb9-4b5a-8785-1ea74070bc5b",
           "type": "basic.input",
           "data": {
-            "name": "scan_plane",
-            "range": "[2:0]",
+            "name": "begin_s",
             "pins": [
-              {
-                "index": "2",
-                "name": "",
-                "value": ""
-              },
-              {
-                "index": "1",
-                "name": "",
-                "value": ""
-              },
               {
                 "index": "0",
                 "name": "",
@@ -221,8 +190,8 @@
             "clock": false
           },
           "position": {
-            "x": 272,
-            "y": 384
+            "x": 304,
+            "y": 360
           }
         },
         {
@@ -328,31 +297,16 @@
           },
           "position": {
             "x": 272,
-            "y": 488
+            "y": 520
           }
         },
         {
-          "id": "5adf0071-33b6-4571-9c03-05957456abb9",
+          "id": "b4d555ed-8951-43df-a9eb-1824d805cc4b",
           "type": "basic.output",
           "data": {
-            "name": "scan_addr",
-            "range": "[15:0]",
+            "name": "pixel_counter",
+            "range": "[12:0]",
             "pins": [
-              {
-                "index": "15",
-                "name": "",
-                "value": ""
-              },
-              {
-                "index": "14",
-                "name": "",
-                "value": ""
-              },
-              {
-                "index": "13",
-                "name": "",
-                "value": ""
-              },
               {
                 "index": "12",
                 "name": "",
@@ -422,8 +376,8 @@
             "virtual": true
           },
           "position": {
-            "x": 1128,
-            "y": 488
+            "x": 1168,
+            "y": 544
           }
         },
         {
@@ -435,8 +389,8 @@
             "local": false
           },
           "position": {
-            "x": 792,
-            "y": 40
+            "x": 800,
+            "y": 16
           }
         },
         {
@@ -474,7 +428,7 @@
           "id": "8d247e8d-eae8-46e3-8105-f5c6f589acff",
           "type": "basic.code",
           "data": {
-            "code": "// Render one line of pixels from RAM\n\n// Scan-out state machine, reads individual\n// bit planes from the line buffer and outputs both\n// the bits and clock-enable signal for the bits.\n\nreg[12:0] pixel_counter = 0;\nreg[17:0] rgb = 0;\nreg running = 0;\nreg rgb_en = 0;\n\nassign done_out = !running;\nassign scan_addr = { pixel_counter, scan_plane };\n\nalways @(posedge clk) begin\n\n    if (begin_in) begin\n        pixel_counter <= 0;\n        rgb_en <= 0;\n        running <= 1;\n    end\n    else if (running) begin\n        rgb_en <= 1;\n        rgb <= scan_data;\n\n        if (pixel_counter == (pixels_per_scan_row - 1))\n            running <= 0;\n        else\n            pixel_counter <= pixel_counter + 1;\n    end\n    else\n        rgb_en <= 0;\nend\n",
+            "code": "// Render one line of pixels from RAM\n\n// Scan-out state machine, reads individual\n// bit planes from the line buffer and outputs both\n// the bits and clock-enable signal for the bits.\n\nreg[12:0] pixel_counter = 0;\nreg[17:0] rgb = 0;\nreg busy = 0;\nreg rgb_en = 0;\n\nalways @(posedge clk) begin\n    if (begin_s) begin\n        pixel_counter <= 0;\n        rgb_en <= 0;\n        busy <= 1;\n    end\n    else if (busy) begin\n        rgb_en <= 1;\n        rgb <= scan_data;\n\n        if (pixel_counter == (pixels_per_scan_row - 1))\n            busy <= 0;\n        else\n            pixel_counter <= pixel_counter + 1;\n    end\n    else\n        rgb_en <= 0;\nend\n",
             "params": [
               {
                 "name": "pixels_per_scan_row"
@@ -486,12 +440,7 @@
                   "name": "clk"
                 },
                 {
-                  "name": "begin_in"
-                },
-                {
-                  "name": "scan_plane",
-                  "range": "[2:0]",
-                  "size": 3
+                  "name": "begin_s"
                 },
                 {
                   "name": "scan_data",
@@ -501,7 +450,7 @@
               ],
               "out": [
                 {
-                  "name": "done_out"
+                  "name": "busy"
                 },
                 {
                   "name": "rgb",
@@ -512,9 +461,9 @@
                   "name": "rgb_en"
                 },
                 {
-                  "name": "scan_addr",
-                  "range": "[15:0]",
-                  "size": 16
+                  "name": "pixel_counter",
+                  "range": "[12:0]",
+                  "size": 13
                 }
               ]
             }
@@ -525,7 +474,7 @@
           },
           "size": {
             "width": 504,
-            "height": 424
+            "height": 480
           }
         }
       ],
@@ -574,28 +523,6 @@
         },
         {
           "source": {
-            "block": "3b23e508-9bb9-4b5a-8785-1ea74070bc5b",
-            "port": "out"
-          },
-          "target": {
-            "block": "8d247e8d-eae8-46e3-8105-f5c6f589acff",
-            "port": "begin_in"
-          },
-          "vertices": []
-        },
-        {
-          "source": {
-            "block": "8ce17f6f-a7f8-414e-8ab6-b165f9c37b74",
-            "port": "out"
-          },
-          "target": {
-            "block": "8d247e8d-eae8-46e3-8105-f5c6f589acff",
-            "port": "scan_plane"
-          },
-          "size": 3
-        },
-        {
-          "source": {
             "block": "04444fe3-0797-4c6b-843f-581f379b2b57",
             "port": "out"
           },
@@ -618,16 +545,6 @@
         },
         {
           "source": {
-            "block": "8d247e8d-eae8-46e3-8105-f5c6f589acff",
-            "port": "done_out"
-          },
-          "target": {
-            "block": "ce7c7097-d3b6-40cd-abf1-f604737f31e9",
-            "port": "in"
-          }
-        },
-        {
-          "source": {
             "block": "d759dc48-6f59-4ae7-a02e-bc876aa70ba7",
             "port": "out"
           },
@@ -638,14 +555,34 @@
         },
         {
           "source": {
-            "block": "8d247e8d-eae8-46e3-8105-f5c6f589acff",
-            "port": "scan_addr"
+            "block": "3b23e508-9bb9-4b5a-8785-1ea74070bc5b",
+            "port": "out"
           },
           "target": {
-            "block": "5adf0071-33b6-4571-9c03-05957456abb9",
+            "block": "8d247e8d-eae8-46e3-8105-f5c6f589acff",
+            "port": "begin_s"
+          }
+        },
+        {
+          "source": {
+            "block": "8d247e8d-eae8-46e3-8105-f5c6f589acff",
+            "port": "busy"
+          },
+          "target": {
+            "block": "ce7c7097-d3b6-40cd-abf1-f604737f31e9",
+            "port": "in"
+          }
+        },
+        {
+          "source": {
+            "block": "8d247e8d-eae8-46e3-8105-f5c6f589acff",
+            "port": "pixel_counter"
+          },
+          "target": {
+            "block": "b4d555ed-8951-43df-a9eb-1824d805cc4b",
             "port": "in"
           },
-          "size": 16
+          "size": 13
         }
       ]
     }

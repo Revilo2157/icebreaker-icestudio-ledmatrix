@@ -2,7 +2,7 @@
   "version": "1.2",
   "package": {
     "name": "led-refresh",
-    "version": "0.1",
+    "version": "0.2",
     "description": "Refresh controller state machine for LED matrix output",
     "author": "Micah Scott",
     "image": ""
@@ -12,10 +12,79 @@
     "graph": {
       "blocks": [
         {
-          "id": "b1c14052-ecf0-417f-8c59-d3ff465ac7f7",
+          "id": "9b842a7d-32f9-42ca-93b6-fb3bfe012610",
           "type": "basic.output",
           "data": {
-            "name": "scan_row",
+            "name": "scan_plane",
+            "range": "[2:0]",
+            "pins": [
+              {
+                "index": "2",
+                "name": "",
+                "value": ""
+              },
+              {
+                "index": "1",
+                "name": "",
+                "value": ""
+              },
+              {
+                "index": "0",
+                "name": "",
+                "value": ""
+              }
+            ],
+            "virtual": true
+          },
+          "position": {
+            "x": 1064,
+            "y": -16
+          }
+        },
+        {
+          "id": "32c8288c-a1b0-4ea1-a9d9-0b07ea63943b",
+          "type": "basic.output",
+          "data": {
+            "name": "scan_begin",
+            "pins": [
+              {
+                "index": "0",
+                "name": "",
+                "value": ""
+              }
+            ],
+            "virtual": true
+          },
+          "position": {
+            "x": 1064,
+            "y": 32
+          }
+        },
+        {
+          "id": "dff95704-97ef-4786-bc90-d06872e47514",
+          "type": "basic.input",
+          "data": {
+            "name": "clk",
+            "pins": [
+              {
+                "index": "0",
+                "name": "",
+                "value": ""
+              }
+            ],
+            "virtual": true,
+            "clock": true
+          },
+          "position": {
+            "x": 88,
+            "y": 104
+          }
+        },
+        {
+          "id": "e2ba0e35-0314-47b5-98f4-73cefe5baf40",
+          "type": "basic.output",
+          "data": {
+            "name": "expose_row",
             "range": "[7:0]",
             "pins": [
               {
@@ -62,35 +131,15 @@
             "virtual": true
           },
           "position": {
-            "x": 1048,
-            "y": 0
+            "x": 1064,
+            "y": 200
           }
         },
         {
-          "id": "dff95704-97ef-4786-bc90-d06872e47514",
-          "type": "basic.input",
-          "data": {
-            "name": "clk",
-            "pins": [
-              {
-                "index": "0",
-                "name": "",
-                "value": ""
-              }
-            ],
-            "virtual": true,
-            "clock": true
-          },
-          "position": {
-            "x": 120,
-            "y": 104
-          }
-        },
-        {
-          "id": "9b842a7d-32f9-42ca-93b6-fb3bfe012610",
+          "id": "271f66d3-4ef7-4040-b572-63876aa7dc88",
           "type": "basic.output",
           "data": {
-            "name": "scan_plane",
+            "name": "expose_plane",
             "range": "[2:0]",
             "pins": [
               {
@@ -112,53 +161,15 @@
             "virtual": true
           },
           "position": {
-            "x": 1048,
-            "y": 104
-          }
-        },
-        {
-          "id": "51a6b92c-b150-40e1-9469-68d553a8fc8d",
-          "type": "basic.output",
-          "data": {
-            "name": "latch",
-            "pins": [
-              {
-                "index": "0",
-                "name": "",
-                "value": ""
-              }
-            ],
-            "virtual": true
-          },
-          "position": {
-            "x": 1000,
-            "y": 216
-          }
-        },
-        {
-          "id": "0775523b-08f3-4dbd-839a-9885d7430592",
-          "type": "basic.output",
-          "data": {
-            "name": "blank",
-            "pins": [
-              {
-                "index": "0",
-                "name": "",
-                "value": ""
-              }
-            ],
-            "virtual": true
-          },
-          "position": {
-            "x": 1000,
-            "y": 320
+            "x": 1064,
+            "y": 248
           }
         },
         {
           "id": "aa8462a4-d12d-4b56-86a3-4efe765f8e56",
           "type": "basic.output",
           "data": {
-            "name": "scan_begin",
+            "name": "expose_begin",
             "pins": [
               {
                 "index": "0",
@@ -169,15 +180,70 @@
             "virtual": true
           },
           "position": {
-            "x": 1016,
-            "y": 432
+            "x": 1064,
+            "y": 296
+          }
+        },
+        {
+          "id": "b84358d9-b840-4cd0-9112-b0a96ea9c245",
+          "type": "basic.output",
+          "data": {
+            "name": "render_row",
+            "range": "[7:0]",
+            "pins": [
+              {
+                "index": "7",
+                "name": "",
+                "value": ""
+              },
+              {
+                "index": "6",
+                "name": "",
+                "value": ""
+              },
+              {
+                "index": "5",
+                "name": "",
+                "value": ""
+              },
+              {
+                "index": "4",
+                "name": "",
+                "value": ""
+              },
+              {
+                "index": "3",
+                "name": "",
+                "value": ""
+              },
+              {
+                "index": "2",
+                "name": "",
+                "value": ""
+              },
+              {
+                "index": "1",
+                "name": "",
+                "value": ""
+              },
+              {
+                "index": "0",
+                "name": "",
+                "value": ""
+              }
+            ],
+            "virtual": true
+          },
+          "position": {
+            "x": 1072,
+            "y": 440
           }
         },
         {
           "id": "ae6c1960-788a-46ad-8c76-88cb986e06b7",
           "type": "basic.input",
           "data": {
-            "name": "scan_done",
+            "name": "busy_in",
             "pins": [
               {
                 "index": "0",
@@ -189,8 +255,8 @@
             "clock": false
           },
           "position": {
-            "x": 80,
-            "y": 432
+            "x": 88,
+            "y": 464
           }
         },
         {
@@ -208,8 +274,27 @@
             "virtual": true
           },
           "position": {
-            "x": 1016,
-            "y": 536
+            "x": 1072,
+            "y": 488
+          }
+        },
+        {
+          "id": "f4c608ce-b4d8-4f14-86c6-59b171ecee08",
+          "type": "basic.output",
+          "data": {
+            "name": "row_toggle",
+            "pins": [
+              {
+                "index": "0",
+                "name": "",
+                "value": ""
+              }
+            ],
+            "virtual": true
+          },
+          "position": {
+            "x": 1072,
+            "y": 600
           }
         },
         {
@@ -221,8 +306,8 @@
             "local": false
           },
           "position": {
-            "x": 384,
-            "y": -128
+            "x": 376,
+            "y": -208
           }
         },
         {
@@ -234,37 +319,21 @@
             "local": false
           },
           "position": {
-            "x": 608,
-            "y": -136
-          }
-        },
-        {
-          "id": "dfeb6c8f-f427-4e91-81b5-0380f5916ee8",
-          "type": "basic.constant",
-          "data": {
-            "name": "lsb_duration",
-            "value": "16",
-            "local": false
-          },
-          "position": {
-            "x": 824,
-            "y": -136
+            "x": 704,
+            "y": -208
           }
         },
         {
           "id": "d5af8cad-da4b-4026-98f0-f99007afee34",
           "type": "basic.code",
           "data": {
-            "code": "// State machine to refresh each row on the LED matrix multiple times\n// (for binary-weighted brightness control)\n\nreg[7:0] scan_row = 0;\nreg[2:0] scan_plane = 0;\nreg blank = 1;\nreg latch = 0;\nreg scan_begin = 0;\nreg render_begin = 0;\n\n// One iteration of this state machine per bit-plane (several per line)\nparameter S_DEFAULT = 0;\nparameter S_WAIT = 1;\nparameter S_LATCH_ASSERT = 2;\nparameter S_LATCH_DEASSERT = 3;\n\nreg [1:0] state = S_DEFAULT;\nreg [12:0] unblank_timer = 0;\nreg unblank_enable = 0;\n\nalways @(posedge clk) begin\n    case (state)\n\n        S_DEFAULT: begin\n            state <= S_WAIT;\n            scan_begin <= 1'b1;\n\n            if (!scan_plane) begin\n                // Concurrently with scanning out plane 0, start rendering\n                // every plane of the *next* line. It won't need to finish\n                // until this time one line in the future.\n                render_begin <= 1'b1;\n            end\n\n            if (unblank_enable) begin\n                // Only enable unblanking once we've rendered a complete\n                // line into the buffer, so we never display uninitialized\n                // memory. This is also where we initialize a binary-weighted\n                // timer to time each bit plane.\n                blank <= 0;\n                unblank_timer <= lsb_duration << scan_plane;\n            end\n        end\n\n        S_WAIT: begin\n            render_begin <= 0;\n            scan_begin <= 0;\n\n            if (unblank_timer)\n                unblank_timer <= unblank_timer - 1;\n            else\n                blank <= 1;\n\n            if (scan_done && blank)\n                state <= S_LATCH_ASSERT;\n        end\n\n        S_LATCH_ASSERT: begin\n            latch <= 1;\n            state <= S_LATCH_DEASSERT;\n\n            // Roll over counters during the latch assert clock cycle.\n            // This could happen at any time during blanking.\n            if (scan_plane == (num_planes - 1)) begin\n\n                // First plane of next row\n                scan_plane <= 0;\n                if (scan_row == (num_scan_rows - 1))\n                    scan_row <= 0;\n                else\n                    scan_row <= scan_row + 1;\n\n                // Allow unblanking for the first time only after there's\n                // been enough time for the first line to write to RAM\n                // (one full modulation cycle on one line)\n                unblank_enable <= 1'b1;\n            end\n            else begin\n                scan_plane <= scan_plane + 1;\n            end\n        end\n\n        S_LATCH_DEASSERT: begin\n            state <= S_DEFAULT;\n            latch <= 0;\n        end\n    endcase\nend\n\n",
+            "code": "reg [7:0] scan_row = 0;\nreg [2:0] scan_plane = 0;\nreg [7:0] expose_row = 0;\nreg [2:0] expose_plane = 0;\nreg expose_begin = 0;\nreg scan_begin = 0;\nreg scan_begin_predelay = 0;\nreg render_begin = 0;\nreg row_toggle = 0;\n\nreg render_started = 0;\nreg has_rendered = 0;\nreg has_scanned = 0;\n\nassign render_row = scan_row + 1;\n\n// Scan begin signal we present externally is delayed 1 clock,\n// so that scanning happens after the latch-posedge in the exposure module\nalways @(posedge clk)\n    scan_begin <= scan_begin_predelay;\n\nalways @(posedge clk) begin\n    if (busy_in || expose_begin || scan_begin_predelay || scan_begin) begin\n        // Waiting for external scanner or exposure logic to finish,\n        // or we just asked it to start (on the previous clock)\n        expose_begin <= 0;\n        scan_begin_predelay <= 0;\n        render_begin <= 0;\n    end\n    else begin\n        // Start work on a new scan bitplane, if rendering has finished.\n\n        // Expose what we just finished scanning\n        expose_row <= scan_row;\n        expose_plane <= scan_plane;\n        expose_begin <= has_scanned;\n\n        // Scan next plane/row (after 1clock delay)\n        scan_begin_predelay <= has_rendered;\n        has_scanned <= has_rendered;\n\n        // Next scan plane; other counters follow\n        if (scan_plane != (num_planes - 1)) begin\n            scan_plane <= scan_plane + 1;\n        end\n        else begin\n            // Finished scanning all bitplanes on a row;\n            // start scanning (and rendering!) a new row.\n            scan_plane <= 0;\n            render_begin <= 1;\n            render_started <= 1;\n            has_rendered <= render_started;\n            row_toggle <= !row_toggle;\n\n            if (scan_row != (num_scan_rows - 1)) begin\n                scan_row <= scan_row + 1;\n            end\n            else begin\n                scan_row <= 0;\n            end\n        end\n    end\nend\n",
             "params": [
               {
                 "name": "num_scan_rows"
               },
               {
                 "name": "num_planes"
-              },
-              {
-                "name": "lsb_duration"
               }
             ],
             "ports": {
@@ -273,31 +342,41 @@
                   "name": "clk"
                 },
                 {
-                  "name": "scan_done"
+                  "name": "busy_in"
                 }
               ],
               "out": [
-                {
-                  "name": "scan_row",
-                  "range": "[7:0]",
-                  "size": 8
-                },
                 {
                   "name": "scan_plane",
                   "range": "[2:0]",
                   "size": 3
                 },
                 {
-                  "name": "latch"
-                },
-                {
-                  "name": "blank"
-                },
-                {
                   "name": "scan_begin"
                 },
                 {
+                  "name": "expose_row",
+                  "range": "[7:0]",
+                  "size": 8
+                },
+                {
+                  "name": "expose_plane",
+                  "range": "[2:0]",
+                  "size": 3
+                },
+                {
+                  "name": "expose_begin"
+                },
+                {
+                  "name": "render_row",
+                  "range": "[7:0]",
+                  "size": 8
+                },
+                {
                   "name": "render_begin"
+                },
+                {
+                  "name": "row_toggle"
                 }
               ]
             }
@@ -308,7 +387,7 @@
           },
           "size": {
             "width": 648,
-            "height": 648
+            "height": 696
           }
         }
       ],
@@ -336,17 +415,6 @@
         {
           "source": {
             "block": "d5af8cad-da4b-4026-98f0-f99007afee34",
-            "port": "scan_row"
-          },
-          "target": {
-            "block": "b1c14052-ecf0-417f-8c59-d3ff465ac7f7",
-            "port": "in"
-          },
-          "size": 8
-        },
-        {
-          "source": {
-            "block": "d5af8cad-da4b-4026-98f0-f99007afee34",
             "port": "scan_plane"
           },
           "target": {
@@ -354,36 +422,6 @@
             "port": "in"
           },
           "size": 3
-        },
-        {
-          "source": {
-            "block": "d5af8cad-da4b-4026-98f0-f99007afee34",
-            "port": "latch"
-          },
-          "target": {
-            "block": "51a6b92c-b150-40e1-9469-68d553a8fc8d",
-            "port": "in"
-          }
-        },
-        {
-          "source": {
-            "block": "d5af8cad-da4b-4026-98f0-f99007afee34",
-            "port": "blank"
-          },
-          "target": {
-            "block": "0775523b-08f3-4dbd-839a-9885d7430592",
-            "port": "in"
-          }
-        },
-        {
-          "source": {
-            "block": "d5af8cad-da4b-4026-98f0-f99007afee34",
-            "port": "scan_begin"
-          },
-          "target": {
-            "block": "aa8462a4-d12d-4b56-86a3-4efe765f8e56",
-            "port": "in"
-          }
         },
         {
           "source": {
@@ -407,22 +445,75 @@
         },
         {
           "source": {
+            "block": "d5af8cad-da4b-4026-98f0-f99007afee34",
+            "port": "render_row"
+          },
+          "target": {
+            "block": "b84358d9-b840-4cd0-9112-b0a96ea9c245",
+            "port": "in"
+          },
+          "size": 8
+        },
+        {
+          "source": {
+            "block": "d5af8cad-da4b-4026-98f0-f99007afee34",
+            "port": "row_toggle"
+          },
+          "target": {
+            "block": "f4c608ce-b4d8-4f14-86c6-59b171ecee08",
+            "port": "in"
+          }
+        },
+        {
+          "source": {
+            "block": "d5af8cad-da4b-4026-98f0-f99007afee34",
+            "port": "expose_begin"
+          },
+          "target": {
+            "block": "aa8462a4-d12d-4b56-86a3-4efe765f8e56",
+            "port": "in"
+          }
+        },
+        {
+          "source": {
+            "block": "d5af8cad-da4b-4026-98f0-f99007afee34",
+            "port": "expose_row"
+          },
+          "target": {
+            "block": "e2ba0e35-0314-47b5-98f4-73cefe5baf40",
+            "port": "in"
+          },
+          "size": 8
+        },
+        {
+          "source": {
+            "block": "d5af8cad-da4b-4026-98f0-f99007afee34",
+            "port": "expose_plane"
+          },
+          "target": {
+            "block": "271f66d3-4ef7-4040-b572-63876aa7dc88",
+            "port": "in"
+          },
+          "size": 3
+        },
+        {
+          "source": {
             "block": "ae6c1960-788a-46ad-8c76-88cb986e06b7",
             "port": "out"
           },
           "target": {
             "block": "d5af8cad-da4b-4026-98f0-f99007afee34",
-            "port": "scan_done"
+            "port": "busy_in"
           }
         },
         {
           "source": {
-            "block": "dfeb6c8f-f427-4e91-81b5-0380f5916ee8",
-            "port": "constant-out"
+            "block": "d5af8cad-da4b-4026-98f0-f99007afee34",
+            "port": "scan_begin"
           },
           "target": {
-            "block": "d5af8cad-da4b-4026-98f0-f99007afee34",
-            "port": "lsb_duration"
+            "block": "32c8288c-a1b0-4ea1-a9d9-0b07ea63943b",
+            "port": "in"
           }
         }
       ]
