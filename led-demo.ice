@@ -1125,22 +1125,6 @@
         },
         {
           "source": {
-            "block": "9ae8aca7-c3e3-41cf-a7b7-8220af8a31b4",
-            "port": "51a6b92c-b150-40e1-9469-68d553a8fc8d"
-          },
-          "target": {
-            "block": "899d2d09-9fa0-45d1-a9a1-42aeaf4c9ff8",
-            "port": "3b23e508-9bb9-4b5a-8785-1ea74070bc5b"
-          },
-          "vertices": [
-            {
-              "x": -768,
-              "y": 832
-            }
-          ]
-        },
-        {
-          "source": {
             "block": "68dcbb0c-a2cb-41b3-8dc2-92a39aaa9e1c",
             "port": "664caf9e-5f40-4df4-800a-b626af702e62"
           },
@@ -1198,6 +1182,22 @@
             }
           ],
           "size": 8
+        },
+        {
+          "source": {
+            "block": "cfc3c1f4-1673-469e-ae8a-3123c419d0cc",
+            "port": "32c8288c-a1b0-4ea1-a9d9-0b07ea63943b"
+          },
+          "target": {
+            "block": "899d2d09-9fa0-45d1-a9a1-42aeaf4c9ff8",
+            "port": "3b23e508-9bb9-4b5a-8785-1ea74070bc5b"
+          },
+          "vertices": [
+            {
+              "x": -1968,
+              "y": 1568
+            }
+          ]
         }
       ]
     }
