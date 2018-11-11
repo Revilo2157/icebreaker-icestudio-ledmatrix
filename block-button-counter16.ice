@@ -2,7 +2,7 @@
   "version": "1.2",
   "package": {
     "name": "btn-counter16",
-    "version": "1.0",
+    "version": "1.1",
     "description": "Button-controlled 16 bit up/down/reset counter",
     "author": "",
     "image": ""
@@ -262,8 +262,8 @@
           }
         },
         {
-          "id": "f86138fb-b09f-44cc-bb2a-ce94b0b19416",
-          "type": "0f36e257de044f53912ad2be04d34679995fb515",
+          "id": "777705c2-cedc-45b2-91af-e440314dcfb7",
+          "type": "13a0c8471554efff3c4e3b18321bb7eefed1e59c",
           "position": {
             "x": 1256,
             "y": 192
@@ -399,7 +399,7 @@
         },
         {
           "source": {
-            "block": "f86138fb-b09f-44cc-bb2a-ce94b0b19416",
+            "block": "777705c2-cedc-45b2-91af-e440314dcfb7",
             "port": "e55b2ce1-4757-487b-afe6-fc1b168db82b"
           },
           "target": {
@@ -414,7 +414,7 @@
             "port": "out"
           },
           "target": {
-            "block": "f86138fb-b09f-44cc-bb2a-ce94b0b19416",
+            "block": "777705c2-cedc-45b2-91af-e440314dcfb7",
             "port": "4e8e4bc9-3124-4bfd-9d17-ce763f188643"
           }
         },
@@ -424,7 +424,7 @@
             "port": "95c5777d-7307-4f3c-a45e-03eaa6d52193"
           },
           "target": {
-            "block": "f86138fb-b09f-44cc-bb2a-ce94b0b19416",
+            "block": "777705c2-cedc-45b2-91af-e440314dcfb7",
             "port": "df100775-8be6-4af2-b957-3c840e6cf083"
           }
         },
@@ -434,7 +434,7 @@
             "port": "95c5777d-7307-4f3c-a45e-03eaa6d52193"
           },
           "target": {
-            "block": "f86138fb-b09f-44cc-bb2a-ce94b0b19416",
+            "block": "777705c2-cedc-45b2-91af-e440314dcfb7",
             "port": "481f30f8-c3e5-4b1b-8ecb-65158f3bf7fa"
           }
         },
@@ -444,7 +444,7 @@
             "port": "95c5777d-7307-4f3c-a45e-03eaa6d52193"
           },
           "target": {
-            "block": "f86138fb-b09f-44cc-bb2a-ce94b0b19416",
+            "block": "777705c2-cedc-45b2-91af-e440314dcfb7",
             "port": "7de36a41-b595-4bb9-bc7b-3b9142cc9ead"
           }
         },
@@ -454,7 +454,7 @@
             "port": "constant-out"
           },
           "target": {
-            "block": "f86138fb-b09f-44cc-bb2a-ce94b0b19416",
+            "block": "777705c2-cedc-45b2-91af-e440314dcfb7",
             "port": "2dc1b063-4c3d-48f9-8035-f081f41eee36"
           }
         }
@@ -1383,10 +1383,10 @@
         }
       }
     },
-    "0f36e257de044f53912ad2be04d34679995fb515": {
+    "13a0c8471554efff3c4e3b18321bb7eefed1e59c": {
       "package": {
-        "name": "",
-        "version": "",
+        "name": "counter16",
+        "version": "0.2",
         "description": "",
         "author": "",
         "image": ""
@@ -1472,7 +1472,7 @@
               "id": "a87e8b1b-07f5-46cc-b5aa-5b27a0074887",
               "type": "basic.code",
               "data": {
-                "code": "reg [15:0] count = 0;\n\nalways @(posedge clk)\n    if (reset)\n        count <= 0;\n    else if (up & !down)\n        count <= count + 1;\n    else if (down & !up)\n        count <= count - 1;\n\n    ",
+                "code": "reg [15:0] count = reset_value;\n\nalways @(posedge clk)\n    if (reset)\n        count <= reset_value;\n    else if (up & !down)\n        count <= count + 1;\n    else if (down & !up)\n        count <= count - 1;\n\n    ",
                 "params": [
                   {
                     "name": "reset_value"
@@ -1507,7 +1507,7 @@
                 "y": 144
               },
               "size": {
-                "width": 296,
+                "width": 320,
                 "height": 184
               }
             }

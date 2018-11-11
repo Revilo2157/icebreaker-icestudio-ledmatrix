@@ -1,8 +1,8 @@
 {
   "version": "1.2",
   "package": {
-    "name": "",
-    "version": "",
+    "name": "counter16",
+    "version": "0.2",
     "description": "",
     "author": "",
     "image": ""
@@ -203,7 +203,7 @@
           "id": "a87e8b1b-07f5-46cc-b5aa-5b27a0074887",
           "type": "basic.code",
           "data": {
-            "code": "reg [15:0] count = 0;\n\nalways @(posedge clk)\n    if (reset)\n        count <= 0;\n    else if (up & !down)\n        count <= count + 1;\n    else if (down & !up)\n        count <= count - 1;\n\n    ",
+            "code": "reg [15:0] count = reset_value;\n\nalways @(posedge clk)\n    if (reset)\n        count <= reset_value;\n    else if (up & !down)\n        count <= count + 1;\n    else if (down & !up)\n        count <= count - 1;\n\n    ",
             "params": [
               {
                 "name": "reset_value"
@@ -238,7 +238,7 @@
             "y": 144
           },
           "size": {
-            "width": 296,
+            "width": 320,
             "height": 184
           }
         }
